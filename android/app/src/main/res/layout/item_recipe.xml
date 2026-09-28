@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  One row type serving both lists, but the adapter changes enough about it that
-  the two never read as the same component repeated: the ready rows carry an
-  grass verdict stamp, the almost rows carry a citron chip naming what is short,
-  and the rule between them is tinted to whichever band the row sits in.
+  A recipe as a line of the same book: name, dot leaders, verdict at the right. The description is not repeated here - it is on the
+  recipe's own page, and a list that carries a paragraph per entry stops being
+  a list.
 
-  The index column lines up with the one on the pantry screen, so the same
-  underlying grid runs through both lists.
+  Every row is two line pitches, so the ruling stays regular whichever list the
+  row belongs to. The second line is the only thing that differs between them:
+  what a recipe takes, or what it still needs.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,98 +15,68 @@
     android:background="?attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:orientation="vertical"
-    android:paddingStart="@dimen/gutter"
-    android:paddingEnd="@dimen/gutter">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/line_pitch"
+        android:baselineAligned="false"
+        android:gravity="bottom"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/space_md">
+        android:paddingBottom="@dimen/sit_on_rule">
+
+        <!-- No index. Two lists share this page and both would start at 01,
+             and a recipe is an entry rather than a numbered item of stock. The
+             space is kept so the names line up with the pantry's. -->
+        <Space
+            android:layout_width="@dimen/page_gutter"
+            android:layout_height="1dp" />
 
         <TextView
-            android:id="@+id/text_index"
-            android:layout_width="26dp"
+            android:id="@+id/text_recipe_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_2xs"
-            tools:text="01"
-            style="@style/Text.Index" />
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="Cheese Omelette"
+            style="@style/Text.Item" />
 
-        <LinearLayout
+        <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="2dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/space_xs"
+            android:layout_marginEnd="@dimen/space_xs"
+            android:layout_marginBottom="4dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:background="@drawable/leader_dots"
+            android:layerType="software" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_recipe_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="Cheese Omelette"
-                    style="@style/Text.Title" />
-
-                <TextView
-                    android:id="@+id/stamp_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_xs"
-                    android:layout_marginTop="@dimen/space_2xs"
-                    android:background="@drawable/bg_chip_grass"
-                    android:paddingStart="5dp"
-                    android:paddingTop="3dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="3dp"
-                    android:text="@string/stamp_ready"
-                    android:textColor="@color/grass"
-                    android:visibility="gone"
-                    style="@style/Text.Stamp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/text_recipe_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_2xs"
-                tools:text="A fast three-egg omelette folded around melted cheese."
-                style="@style/Text.Body" />
-
-            <TextView
-                android:id="@+id/text_recipe_meta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_xs"
-                tools:text="Serves 1 · 10 min · 4 ingredients"
-                style="@style/Text.Stamp" />
-
-            <TextView
-                android:id="@+id/text_recipe_missing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_xs"
-                android:background="@drawable/bg_chip_citron"
-                android:paddingStart="@dimen/space_xs"
-                android:paddingTop="5dp"
-                android:paddingEnd="@dimen/space_xs"
-                android:paddingBottom="5dp"
-                android:textColor="@color/citron"
-                android:textSize="13sp"
-                android:visibility="gone"
-                tools:text="Missing: cheese" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/stamp_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/page_gutter_end"
+            tools:text="ready"
+            style="@style/Text.Stamp" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/row_rule"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/rule_thin"
-        android:layout_marginTop="@dimen/space_md"
-        android:background="@color/rule" />
+        android:layout_height="@dimen/line_pitch"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/sit_on_rule"
+        android:paddingStart="@dimen/page_gutter"
+        android:paddingEnd="@dimen/page_gutter_end">
+
+        <TextView
+            android:id="@+id/text_recipe_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="serves 1 · 10 min · 4 ingredients"
+            style="@style/Text.Note.Quiet" />
+    </LinearLayout>
 </LinearLayout>

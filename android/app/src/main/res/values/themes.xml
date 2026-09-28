@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.SmartPantry" parent="Theme.Material3.Light.NoActionBar">
-        <item name="colorPrimary">@color/tomato</item>
-        <item name="colorOnPrimary">@color/on_accent</item>
-        <item name="colorPrimaryContainer">@color/tomato_wash</item>
-        <item name="colorOnPrimaryContainer">@color/tomato</item>
-        <item name="colorSecondary">@color/grass</item>
-        <item name="colorSecondaryContainer">@color/grass_wash</item>
-        <item name="colorOnSecondaryContainer">@color/grass</item>
-        <item name="colorError">@color/chilli</item>
+        <item name="colorPrimary">@color/pen</item>
+        <item name="colorOnPrimary">@color/on_ink</item>
+        <item name="colorPrimaryContainer">@color/pen_faint</item>
+        <item name="colorOnPrimaryContainer">@color/pen</item>
+        <item name="colorSecondary">@color/ink</item>
+        <item name="colorSecondaryContainer">@color/paper_edge</item>
+        <item name="colorOnSecondaryContainer">@color/ink</item>
+        <item name="colorError">@color/pen</item>
         <item name="android:colorBackground">@color/paper</item>
-        <item name="colorSurface">@color/paper_raised</item>
+        <item name="colorSurface">@color/paper</item>
         <item name="colorOnSurface">@color/ink</item>
         <item name="colorOutline">@color/rule</item>
-        <!-- The status bar joins the masthead rather than sitting above it as
-             a cream strip, so the ink field runs to the top edge of the
-             screen. Light icons, because it is now a dark surface. -->
-        <item name="android:statusBarColor" tools:targetApi="21">@color/field</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+        <!-- The page runs to the top of the screen, so the status bar is the
+             same paper rather than a band above it. -->
+        <item name="android:statusBarColor" tools:targetApi="21">@color/paper</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
         <item name="android:textViewStyle">@style/AppTextView</item>
     </style>
 

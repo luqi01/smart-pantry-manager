@@ -1,42 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  The list runs from the masthead down to a fixed action block at the foot of
-  the screen.
+  The list is written straight onto the page: no background of its own, so the
+  paper, the ruling and the margin rule all belong to the page rather than to
+  this one screen.
 
-  Previously the add button floated in the bottom corner, which left the lower
-  third of the screen empty on a short pantry and made the layout look
-  unfinished. Anchoring the action to the bottom edge and putting the recipe
-  prompt above it turns that space into the part of the screen that tells the
-  user what to do next.
+  What used to be a row of counts at the top is now a single line at the foot,
+  in the italic a note gets added in. It says the one thing the counts were for:
+  whether the shelves add up to anything worth cooking.
 -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/paper">
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_pantry"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingTop="@dimen/space_xs"
-        android:paddingBottom="@dimen/space_md"
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@id/panel_actions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- An empty state that says what to do next, not just that there is
-         nothing here. -->
+    <!-- The empty page says what to write on it, not that it is empty. -->
     <LinearLayout
         android:id="@+id/layout_empty"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/gutter"
+        android:layout_marginStart="@dimen/page_gutter"
         android:layout_marginEnd="@dimen/space_2xl"
         android:orientation="vertical"
         android:visibility="gone"
@@ -48,15 +43,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/stamp_empty"
-            style="@style/Text.Stamp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xs"
             android:text="@string/empty_pantry_title"
-            style="@style/Text.Screen" />
+            style="@style/Text.Note.Quiet" />
 
         <TextView
             android:layout_width="match_parent"
@@ -70,7 +58,7 @@
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminateTint="@color/tomato"
+        android:indeterminateTint="@color/pen"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,24 +74,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <!--
-          A standing prompt rather than a notification: the whole point of the
-          pantry is what it lets you cook, so the count belongs on this screen
-          and tapping it goes straight there.
-        -->
         <LinearLayout
             android:id="@+id/strip_ready"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/grass_wash"
+            android:layout_height="@dimen/line_pitch"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/gutter"
-            android:paddingTop="@dimen/space_sm"
-            android:paddingEnd="@dimen/gutter"
-            android:paddingBottom="@dimen/space_sm"
+            android:paddingStart="@dimen/page_gutter"
+            android:paddingEnd="@dimen/page_gutter_end"
             android:visibility="gone">
 
             <TextView
@@ -111,17 +92,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/grass"
-                tools:text="2 recipes ready from your shelves"
-                style="@style/Text.Item" />
+                tools:text="you can make 2 things tonight"
+                style="@style/Text.Note" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_sm"
                 android:text="@string/action_view"
-                android:textColor="@color/grass"
-                style="@style/Text.Stamp" />
+                style="@style/Text.Stamp.Pen" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -132,16 +111,17 @@
             android:fontFamily="@font/body"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:letterSpacing="0.01"
+            android:letterSpacing="0.02"
             android:text="@string/action_add_ingredient"
-        android:textStyle="bold"
             android:textAllCaps="false"
-            android:textSize="17sp"
-            app:backgroundTint="@color/tomato"
+            android:textColor="@color/on_ink"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/ink"
             app:cornerRadius="0dp"
             app:icon="@drawable/ic_add"
             app:iconGravity="textStart"
-            app:iconTint="@color/on_accent" />
+            app:iconTint="@color/on_ink" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

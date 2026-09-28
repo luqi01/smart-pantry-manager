@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The head of the page: what the page is, and what day it is.
+
+  No block of colour, no count of anything. A stat row is the most templated
+  thing an interface can open with, and the counts it carried are better said
+  once, in words, at the foot of the list.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/page_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/space_lg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/page_gutter"
+        android:paddingEnd="@dimen/page_gutter_end">
+
+        <TextView
+            android:id="@+id/page_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="Pantry"
+            style="@style/Text.Page" />
+
+        <TextView
+            android:id="@+id/page_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_sm"
+            android:layout_marginBottom="@dimen/space_2xs"
+            tools:text="Mon 28 Sep"
+            style="@style/Text.Stamp" />
+    </LinearLayout>
+
+    <!-- Underlined, the way a heading is underlined on a page that is written
+         rather than typeset. -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="@dimen/margin_x"
+        android:layout_marginTop="@dimen/space_sm"
+        android:background="@color/ink" />
+</LinearLayout>

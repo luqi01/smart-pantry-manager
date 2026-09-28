@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dot leaders, running from the end of the name to the quantity. They are
+     what a person draws when writing a list against a right-hand column, and
+     they let the eye cross a wide gap without losing the line. Views using this
+     need layerType="software": the framework will not render a dashed stroke on
+     a hardware layer. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="line">
+    <stroke
+        android:width="1dp"
+        android:color="@color/ink_faint"
+        android:dashGap="4dp"
+        android:dashWidth="1.5dp" />
+</shape>

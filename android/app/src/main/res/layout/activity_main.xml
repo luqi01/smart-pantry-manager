@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Host layout: masthead, a container the three fragments swap through, and the
-  navigation bar.
+  The page, and the tabs at the foot of it.
 
-  The masthead is part of the host rather than each fragment so that it stays
-  put while the content under it changes, and so the three screens cannot drift
-  apart in how their heading is set.
+  The margin rule is drawn here rather than by any one screen, because it runs
+  the whole height of the page regardless of what is written on it, and it has
+  to cross the heading as well as the list.
 -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,8 +14,8 @@
     android:background="@color/paper">
 
     <include
-        android:id="@+id/masthead"
-        layout="@layout/view_masthead"
+        android:id="@+id/page_header"
+        layout="@layout/view_page_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +29,17 @@
         app:layout_constraintBottom_toTopOf="@id/nav_rule"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/masthead" />
+        app:layout_constraintTop_toBottomOf="@id/page_header" />
+
+    <View
+        android:id="@+id/margin_rule"
+        android:layout_width="@dimen/rule_thin"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_x"
+        android:background="@color/margin_rule"
+        app:layout_constraintBottom_toTopOf="@id/nav_rule"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/nav_rule"

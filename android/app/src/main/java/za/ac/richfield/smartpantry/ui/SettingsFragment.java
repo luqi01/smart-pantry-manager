@@ -131,7 +131,7 @@ public class SettingsFragment extends Fragment {
                 int recipes = result != null && result.has("recipes")
                         ? result.get("recipes").getAsInt() : 0;
                 status.setText(getString(R.string.settings_connection_ok, recipes));
-                status.setTextColor(ContextCompat.getColor(requireContext(), R.color.grass));
+                status.setTextColor(ContextCompat.getColor(requireContext(), R.color.ink));
             }
 
             @Override
@@ -140,7 +140,7 @@ public class SettingsFragment extends Fragment {
                     return;
                 }
                 status.setText(message);
-                status.setTextColor(ContextCompat.getColor(requireContext(), R.color.chilli));
+                status.setTextColor(ContextCompat.getColor(requireContext(), R.color.pen));
             }
         });
     }

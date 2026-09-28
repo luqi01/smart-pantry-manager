@@ -33,7 +33,6 @@ import za.ac.richfield.smartpantry.data.RecipeRepository;
 import za.ac.richfield.smartpantry.logic.RecipeMatcher;
 import za.ac.richfield.smartpantry.model.PantryItem;
 import za.ac.richfield.smartpantry.model.Recipe;
-import za.ac.richfield.smartpantry.util.Prefs;
 
 /**
  * The pantry list: everything the user currently has at home.
@@ -102,6 +101,9 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
         adapter = new PantryAdapter(requireContext(), this);
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         recycler.setAdapter(adapter);
+        // The ruling belongs to the page rather than to any row, so it is drawn
+        // across the whole list and carries on below the last line.
+        recycler.addItemDecoration(new RuledPaperDecoration(requireContext()));
 
         MaterialButton add = view.findViewById(R.id.fab_add);
         add.setOnClickListener(v -> openEditor(null));
@@ -147,26 +149,15 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
     }
 
     /**
-     * Fills the masthead counts and the prompt above the add button.
+     * Writes the note at the foot of the list.
      *
      * <p>How many recipes the pantry unlocks is the question the app exists to
-     * answer, so it is worth a second request to put the number on this screen
-     * rather than making the user change tab to find out. The recipes are
-     * cached after the first fetch, so in practice this is one network call on
-     * a cold start and none afterwards.
+     * answer, so it is worth a second request to say it on this screen rather
+     * than making the user change tab to find out. The recipes are cached after
+     * the first fetch, so in practice this is one network call on a cold start
+     * and none afterwards.
      */
     private void summarise(final List<PantryItem> items) {
-        final int total = items == null ? 0 : items.size();
-        int soon = 0;
-        if (new Prefs(requireContext()).isExpiryAlertsEnabled() && items != null) {
-            for (PantryItem item : items) {
-                if (PantryAdapter.isExpiringSoon(item)) {
-                    soon++;
-                }
-            }
-        }
-        final int expiring = soon;
-
         recipeRepository.readAll(false, new ApiClient.Callback<List<Recipe>>() {
             @Override
             public void onSuccess(List<Recipe> recipes) {
@@ -174,7 +165,6 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
                     return;
                 }
                 int ready = RecipeMatcher.suggested(recipes, items).size();
-                showStats(total, expiring, String.valueOf(ready));
                 readyStrip.setVisibility(ready > 0 ? View.VISIBLE : View.GONE);
                 readyCount.setText(getResources()
                         .getQuantityString(R.plurals.strip_ready, ready, ready));
@@ -185,19 +175,11 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
                 if (!isAdded()) {
                     return;
                 }
-                // The pantry itself loaded, so its two counts still stand. The
-                // third is unknown rather than zero, and says so.
-                showStats(total, expiring, getString(R.string.stat_unknown));
+                // The pantry itself loaded. Saying nothing about the recipes is
+                // better than claiming there are none.
                 readyStrip.setVisibility(View.GONE);
             }
         });
-    }
-
-    private void showStats(int total, int expiring, String ready) {
-        ((MainActivity) requireActivity()).setStats(
-                String.valueOf(total), R.string.stat_items,
-                String.valueOf(expiring), R.string.stat_use_soon,
-                ready, R.string.stat_can_cook);
     }
 
     private void showError(String message) {

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  A ledger row, not a card. Cards around every row would put twenty containers
-  on screen and make the list feel heavier than the information in it.
+  A line written on a ruled page.
 
-  Three columns, so the eye can read down any one of them: a running index on
-  the left, the name in the middle, the quantity set as a figure on the right
-  with its unit stamped underneath. A pantry is a list of amounts and the screen
-  should look like one - the quantity was previously a small chip that read as
-  an afterthought rather than the number you came to check.
+  The row is exactly one line pitch tall, or two when the item carries a use-by
+  note, so that the writing always sits on a rule rather than floating between
+  them. The rules themselves are drawn by RuledPaperDecoration, not here: a rule
+  drawn by the last row would stop where the list stops, and a page is ruled all
+  the way down.
+
+  The quantity is set at the same size as the name rather than blown up as a
+  figure, and dot leaders carry the eye across to it. It is a list, not a
+  dashboard.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,115 +24,55 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/line_pitch"
         android:baselineAligned="false"
-        android:gravity="center_vertical"
+        android:gravity="bottom"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/gutter"
-        android:paddingTop="@dimen/space_md"
-        android:paddingEnd="@dimen/space_xs"
-        android:paddingBottom="@dimen/space_md">
+        android:paddingBottom="@dimen/sit_on_rule">
 
+        <!-- Marginalia: the index is written outside the margin rule, where a
+             page number or a tick would go. -->
         <TextView
             android:id="@+id/text_index"
-            android:layout_width="26dp"
+            android:layout_width="@dimen/page_gutter"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginTop="5dp"
+            android:gravity="end"
+            android:paddingEnd="@dimen/space_lg"
             tools:text="02"
             style="@style/Text.Index" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="Cheddar Cheese"
+            style="@style/Text.Item" />
+
+        <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/text_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                tools:text="Cheddar Cheese"
-                style="@style/Text.Item" />
-
-            <LinearLayout
-                android:id="@+id/group_expiry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_2xs"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/chip_expiry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/space_2xs"
-                    android:background="@drawable/bg_chip_chilli"
-                    android:paddingStart="5dp"
-                    android:paddingTop="3dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="3dp"
-                    android:text="@string/stamp_use_soon"
-                    android:textColor="@color/chilli"
-                    android:visibility="gone"
-                    style="@style/Text.Stamp" />
-
-                <TextView
-                    android:id="@+id/text_expiry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    tools:text="1 Oct 2026"
-                    style="@style/Text.Meta" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="76dp"
-            android:layout_height="wrap_content"
+            android:layout_height="2dp"
+            android:layout_gravity="bottom"
             android:layout_marginStart="@dimen/space_xs"
-            android:gravity="end"
-            android:orientation="vertical">
+            android:layout_marginEnd="@dimen/space_xs"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/leader_dots"
+            android:layerType="software" />
 
-            <TextView
-                android:id="@+id/text_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                tools:text="200"
-                style="@style/Text.Amount" />
-
-            <TextView
-                android:id="@+id/text_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="2dp"
-                tools:text="g"
-                style="@style/Text.Stamp" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/button_edit"
-            android:layout_width="@dimen/touch_min"
-            android:layout_height="@dimen/touch_min"
-            android:layout_marginStart="@dimen/space_sm"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/action_edit"
-            android:padding="@dimen/space_sm"
-            android:src="@drawable/ic_edit"
-            app:tint="@color/ink_faint" />
+        <TextView
+            android:id="@+id/text_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="200 g"
+            style="@style/Text.Amount" />
 
         <ImageButton
             android:id="@+id/button_delete"
-            android:layout_width="@dimen/touch_min"
-            android:layout_height="@dimen/touch_min"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/space_2xs"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_delete"
             android:padding="@dimen/space_sm"
@@ -137,10 +80,25 @@
             app:tint="@color/ink_faint" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/row_rule"
+    <!-- The note takes the next line down rather than crowding onto this one. -->
+    <LinearLayout
+        android:id="@+id/group_expiry"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/rule_thin"
-        android:layout_marginStart="@dimen/gutter"
-        android:background="@color/rule" />
+        android:layout_height="@dimen/line_pitch"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/sit_on_rule"
+        android:paddingStart="@dimen/page_gutter"
+        android:paddingEnd="@dimen/page_gutter_end"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_expiry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="use by 1 Oct"
+            style="@style/Text.Note" />
+    </LinearLayout>
 </LinearLayout>

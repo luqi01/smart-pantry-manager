@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Ruled like the pantry list, so a recipe reads as a checklist against the
-  shelves rather than a floating column of ticks.
--->
+<!-- Ruled like the pantry list, because that is what it is being checked
+     against. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -23,7 +21,7 @@
             android:layout_height="18dp"
             android:contentDescription="@string/cd_status"
             android:src="@drawable/ic_check"
-            app:tint="@color/grass" />
+            app:tint="@color/ink" />
 
         <TextView
             android:id="@+id/text_line"
@@ -31,8 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_sm"
             android:layout_weight="1"
-            android:textColor="@color/ink"
-            android:textSize="15sp" />
+            style="@style/Text.Item" />
     </LinearLayout>
 
     <View

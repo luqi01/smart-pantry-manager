@@ -19,7 +19,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-import za.ac.richfield.smartpantry.MainActivity;
 import za.ac.richfield.smartpantry.R;
 import za.ac.richfield.smartpantry.RecipeDetailActivity;
 import za.ac.richfield.smartpantry.adapter.RecipeAdapter;
@@ -57,8 +56,7 @@ public class SuggestionsFragment extends Fragment implements RecipeAdapter.OnRec
     private ProgressBar progress;
     private TextView emptySuggested;
     private TextView emptyAlmost;
-    private View almostSubtitle;
-    private View panelAlmost;
+    private View headingAlmost;
     private RecyclerView almostRecycler;
 
     private List<Recipe> recipes;
@@ -86,18 +84,19 @@ public class SuggestionsFragment extends Fragment implements RecipeAdapter.OnRec
         progress = view.findViewById(R.id.progress);
         emptySuggested = view.findViewById(R.id.text_empty_suggested);
         emptyAlmost = view.findViewById(R.id.text_empty_almost);
-        panelAlmost = view.findViewById(R.id.panel_almost);
-        almostSubtitle = view.findViewById(R.id.text_almost_sub);
+        headingAlmost = view.findViewById(R.id.heading_almost);
         almostRecycler = view.findViewById(R.id.recycler_almost);
 
         suggestedAdapter = new RecipeAdapter(this);
         RecyclerView suggested = view.findViewById(R.id.recycler_suggested);
         suggested.setLayoutManager(new LinearLayoutManager(requireContext()));
         suggested.setAdapter(suggestedAdapter);
+        suggested.addItemDecoration(new RuledPaperDecoration(requireContext()));
 
         almostAdapter = new RecipeAdapter(this);
         almostRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         almostRecycler.setAdapter(almostAdapter);
+        almostRecycler.addItemDecoration(new RuledPaperDecoration(requireContext()));
 
         refreshLayout.setOnRefreshListener(() -> load(true));
     }
@@ -172,26 +171,19 @@ public class SuggestionsFragment extends Fragment implements RecipeAdapter.OnRec
 
         List<MatchResult> almost = RecipeMatcher.almostThere(recipes, pantry);
 
-        ((MainActivity) requireActivity()).setStats(
-                String.valueOf(canCook.size()), R.string.stat_ready,
-                String.valueOf(almost.size()), R.string.stat_almost,
-                String.valueOf(recipes.size()), R.string.stat_recipes);
-
-        // The second list is optional, and the whole band goes with it - the
-        // heading, the rows and the line explaining what the band is for.
+        // The second list is optional, and its heading goes with it.
         boolean showAlmost = new za.ac.richfield.smartpantry.util.Prefs(requireContext())
                 .isShowAlmostThere();
-        panelAlmost.setVisibility(showAlmost ? View.VISIBLE : View.GONE);
+        headingAlmost.setVisibility(showAlmost ? View.VISIBLE : View.GONE);
         if (showAlmost) {
             almostAdapter.replaceAll(almost);
-            // The line describing the band and the line saying it is empty say
-            // the same thing when there is nothing in it, so only one shows.
             boolean bare = almost.isEmpty();
             emptyAlmost.setVisibility(bare ? View.VISIBLE : View.GONE);
-            almostSubtitle.setVisibility(bare ? View.GONE : View.VISIBLE);
             almostRecycler.setVisibility(bare ? View.GONE : View.VISIBLE);
         } else {
             almostAdapter.replaceAll(null);
+            emptyAlmost.setVisibility(View.GONE);
+            almostRecycler.setVisibility(View.GONE);
         }
     }
 

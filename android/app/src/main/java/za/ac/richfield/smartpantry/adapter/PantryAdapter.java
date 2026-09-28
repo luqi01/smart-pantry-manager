@@ -35,11 +35,10 @@ import za.ac.richfield.smartpantry.util.Prefs;
  * that holder as rows scroll off screen. Without it, scrolling a long pantry
  * would stutter.
  *
- * <p>The row is laid out as three columns and the adapter fills each one
- * separately: the position as a running index, the name, and the quantity split
- * from its unit so the figure can be set large with the unit stamped beneath
- * it. Splitting here rather than in the layout keeps the formatting decision
- * next to the data it applies to.
+ * <p>The row is one line of a ruled page, so the adapter fills a line rather
+ * than a set of columns: the index that sits out in the margin, the name, the
+ * quantity the dot leaders run out to, and - on the next line down, when there
+ * is one - the note about when it needs using.
  */
 public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryViewHolder> {
 
@@ -120,7 +119,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
 
     @Override
     public void onBindViewHolder(@NonNull PantryViewHolder holder, int position) {
-        holder.bind(items.get(position), position, position == items.size() - 1);
+        holder.bind(items.get(position), position);
     }
 
     @Override
@@ -133,51 +132,35 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         private final TextView indexView;
         private final TextView nameView;
         private final TextView amountView;
-        private final TextView unitView;
         private final View expiryGroup;
-        private final TextView expiryChip;
         private final TextView expiryView;
-        private final ImageButton editButton;
         private final ImageButton deleteButton;
-        private final View rule;
 
         PantryViewHolder(@NonNull View itemView) {
             super(itemView);
             indexView = itemView.findViewById(R.id.text_index);
             nameView = itemView.findViewById(R.id.text_name);
             amountView = itemView.findViewById(R.id.text_amount);
-            unitView = itemView.findViewById(R.id.text_unit);
             expiryGroup = itemView.findViewById(R.id.group_expiry);
-            expiryChip = itemView.findViewById(R.id.chip_expiry);
             expiryView = itemView.findViewById(R.id.text_expiry);
-            editButton = itemView.findViewById(R.id.button_edit);
             deleteButton = itemView.findViewById(R.id.button_delete);
-            rule = itemView.findViewById(R.id.row_rule);
         }
 
-        void bind(final PantryItem item, int position, boolean isLast) {
-            // The action block below the list already closes the group, so a
-            // rule under the final row would draw a second hairline beside it.
-            rule.setVisibility(isLast ? View.GONE : View.VISIBLE);
-
-            // Zero padded, so the column keeps one width the whole way down and
-            // every name starts at the same place.
+        void bind(final PantryItem item, int position) {
+            // Zero padded, so the margin keeps one width the whole way down.
             indexView.setText(String.format(Locale.UK, "%02d", position + 1));
             nameView.setText(item.getName());
-            amountView.setText(item.getDisplayQuantity());
-            unitView.setText(item.getUnit());
+            amountView.setText(item.getDisplayAmount());
             bindExpiry(item);
 
-            View.OnClickListener edit = new View.OnClickListener() {
+            // The line itself opens the editor. A separate pencil beside the
+            // bin was a second way of doing what tapping the line already did.
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listener.onEdit(item);
                 }
-            };
-            // The whole row opens the editor as well as the pencil: a 48dp icon
-            // is a small target, and the row is the obvious thing to tap.
-            itemView.setOnClickListener(edit);
-            editButton.setOnClickListener(edit);
+            });
 
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -200,17 +183,14 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
             Context context = expiryView.getContext();
             boolean warn = prefs.isExpiryAlertsEnabled() && isExpiringSoon(item);
 
-            // A stamp carries the warning and the date itself stays plain.
-            // Colouring the whole line made a date that is merely known read as
-            // a problem, which left nothing louder to say when one really was.
-            // With the stamp showing, "Expires" in front of the date is the
-            // same thing said twice, and the extra words wrapped the line.
-            expiryChip.setVisibility(warn ? View.VISIBLE : View.GONE);
+            // Something about to go off is what a person would reach for a red
+            // pen to mark, and they would write "use by" rather than a date on
+            // its own. A date that is merely known stays in ordinary ink.
             expiryView.setText(warn
-                    ? SHORT.format(date)
+                    ? context.getString(R.string.label_use_by, SHORT.format(date))
                     : context.getString(R.string.label_expires, FRIENDLY.format(date)));
             expiryView.setTextColor(ContextCompat.getColor(context,
-                    warn ? R.color.chilli : R.color.ink_muted));
+                    warn ? R.color.pen : R.color.ink_muted));
         }
     }
 }

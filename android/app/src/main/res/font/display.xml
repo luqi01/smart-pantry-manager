@@ -22,4 +22,10 @@
         android:font="@font/vollkorn_bold"
         android:fontStyle="normal"
         android:fontWeight="700" />
+    <!-- The italic is for notes: the thing someone adds to a list afterwards,
+         in the margin or under the line, rather than part of the list itself. -->
+    <font
+        android:font="@font/vollkorn_semibold_italic"
+        android:fontStyle="italic"
+        android:fontWeight="600" />
 </font-family>

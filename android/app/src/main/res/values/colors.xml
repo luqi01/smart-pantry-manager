@@ -1,53 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Greengrocer palette: the colours of produce and enamel kitchenware rather
-  than the kraft-and-terracotta that every warm interface reaches for.
+  Paper, ink and a red pen. That is the whole palette.
 
-  Three families. Paper is a cool cream with a green cast, so it reads as fresh
-  rather than aged. Field is the bottle green block at the top of every screen.
-  The accents are picked off a market stall - tomato for the thing to do next,
-  grass for what is ready, citron for what is nearly ready, chilli for what
-  needs using up.
+  The app is a pantry book: a ruled page someone keeps a list on. A ruled page
+  is printed in one faint colour and written on in one or two, so a third
+  accent would be a decision nobody makes when actually keeping a list.
 
-  Every neutral is tinted toward the green, so the surfaces and the field feel
-  related rather than merely adjacent, and nothing here is pure black or white.
-  Weighting is roughly 60 / 30 / 10: paper carries the screen, the field and the
-  rules carry the structure, and tomato is rare enough to still mean something.
+  Ink is blue-black because that is what a pen holds, not black. The ruling is
+  the pale blue of a printed exercise book, and the margin rule is the faded red
+  that runs down one. Red is reserved for what a person would reach for a red
+  pen to mark: something about to go off, something missing, something to undo.
 -->
 <resources>
-    <!-- surfaces -->
-    <color name="paper">#F2F6EE</color>          <!-- celery cream, the background -->
-    <color name="paper_raised">#FAFCF7</color>   <!-- a shade lighter, for rows -->
-    <color name="paper_sunken">#E5EDE0</color>   <!-- pressed and inset states -->
+    <!-- the page -->
+    <color name="paper">#F8F5EC</color>          <!-- warm paper, never #fff -->
+    <color name="paper_edge">#EFEADC</color>     <!-- pressed states, inset fields -->
 
-    <!-- ink -->
-    <color name="ink">#13251C</color>            <!-- deep green-black, never #000 -->
-    <color name="ink_muted">#556B5C</color>
-    <color name="ink_faint">#8CA091</color>
-    <color name="rule">#D4E0CE</color>           <!-- hairline dividers -->
+    <!-- what is written on it -->
+    <color name="ink">#1E2A3A</color>            <!-- blue-black, never #000 -->
+    <color name="ink_muted">#5B6676</color>
+    <color name="ink_faint">#97A0AC</color>
 
-    <!-- the field: the masthead block and anything reversed out of it.
-         Lighter and less saturated than their paper counterparts, because a
-         colour that reads as rich on cream goes muddy on bottle green. -->
-    <color name="field">#123B2C</color>
-    <color name="field_dim">#9DB5A4</color>      <!-- labels on the field -->
-    <color name="field_line">#27503F</color>     <!-- hairlines on the field -->
-    <color name="lime">#C6E84F</color>           <!-- the field's accent -->
+    <!-- what is printed on it -->
+    <color name="rule">#C8D2DF</color>           <!-- the ruling -->
+    <color name="rule_faint">#DDE4EC</color>
+    <color name="margin_rule">#E0A9A4</color>    <!-- the red line down the page -->
 
-    <!-- accents -->
-    <color name="tomato">#C63D1B</color>         <!-- primary: actions, figures -->
-    <color name="tomato_wash">#FBE2D9</color>
-    <color name="grass">#2E7D46</color>          <!-- affirmative: can cook now -->
-    <color name="grass_wash">#DCEFDF</color>
-    <color name="citron">#5E7C10</color>         <!-- almost there -->
-    <color name="citron_wash">#EDF4D6</color>
-    <color name="citron_rule">#D8E5AE</color>    <!-- hairline inside the wash -->
-    <!-- A chip sitting inside the wash needs to be a shade deeper than it, or
-         it disappears into the band it is meant to stand out from. -->
-    <color name="citron_chip">#DFEAB4</color>
-    <color name="chilli">#A8301A</color>         <!-- destructive, expiring -->
-    <color name="chilli_wash">#F8DED7</color>
+    <!-- the red pen -->
+    <color name="pen">#A6342C</color>
+    <color name="pen_faint">#F0DAD6</color>
 
-    <!-- Text on a filled accent. Off-white: pure white on a warm red glares. -->
-    <color name="on_accent">#FFF7F3</color>
+    <color name="on_ink">#F8F5EC</color>         <!-- paper, reversed out of ink -->
 </resources>

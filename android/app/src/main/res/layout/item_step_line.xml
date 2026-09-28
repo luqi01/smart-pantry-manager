@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A leading numeral instead of a bullet. It gives the method column a spine
-     and makes it obvious the steps are ordered. -->
+<!-- A numbered line. The number sits in the margin where the index sits on
+     every other list, rather than inside a coloured disc: a disc is a shape
+     drawn for its own sake, and the number alone already says the steps are
+     ordered. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -10,22 +13,17 @@
 
     <TextView
         android:id="@+id/text_number"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:background="@drawable/bg_step_number"
-        android:fontFamily="@font/body"
-        android:gravity="center"
-        android:textColor="@color/lime"
-        android:textSize="13sp"
-        android:textStyle="bold" />
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="@dimen/space_sm"
+        tools:text="1"
+        style="@style/Text.Index" />
 
     <TextView
         android:id="@+id/text_step"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_sm"
         android:layout_weight="1"
-        android:textColor="@color/ink"
-        android:textSize="15sp"
-        android:lineSpacingMultiplier="1.4" />
+        style="@style/Text.Body" />
 </LinearLayout>

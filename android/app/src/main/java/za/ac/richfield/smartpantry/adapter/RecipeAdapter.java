@@ -11,26 +11,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import za.ac.richfield.smartpantry.R;
 import za.ac.richfield.smartpantry.model.MatchResult;
 import za.ac.richfield.smartpantry.model.Recipe;
 
 /**
- * Binds match results to rows on the Suggested Recipes screen.
+ * Binds match results to lines on the Suggested Recipes page.
  *
- * <p>Takes {@link MatchResult} rather than {@link Recipe} because the row needs
- * the verdict as well as the recipe: a suggested row is stamped as ready, an
- * "Almost There" row shows what is missing. Passing the recipe alone would mean
- * recomputing the match inside {@code onBindViewHolder}, which runs on every
- * scroll.
+ * <p>Takes {@link MatchResult} rather than {@link Recipe} because the line needs
+ * the verdict as well as the recipe: a suggested line reads "ready", a line in
+ * the second list names what is still wanted. Passing the recipe alone would
+ * mean recomputing the match inside {@code onBindViewHolder}, which runs on
+ * every scroll.
  *
- * <p>Both lists on the screen use this one adapter, and the verdict is what
- * separates them visually. A ready row carries a grass stamp beside the name;
- * an almost row carries a citron chip naming the gap and sits inside a tinted
- * band, so its hairline is tinted to match rather than cutting a grey line
- * across the colour.
+ * <p>Both lists use this one adapter, and the verdict decides what the second
+ * line of the entry says. A recipe you can make is described by what it takes;
+ * one you cannot is described by what it needs, in red, because that is the
+ * thing you would write down before going to the shop.
  */
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
@@ -63,9 +61,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-        // The band below the list already closes the group, so a rule under the
-        // final row would draw a second hairline beside it.
-        holder.bind(results.get(position), position, position == results.size() - 1);
+        holder.bind(results.get(position));
     }
 
     @Override
@@ -75,49 +71,39 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView indexView;
         private final TextView nameView;
-        private final TextView descriptionView;
-        private final TextView metaView;
-        private final TextView missingView;
         private final TextView statusStamp;
-        private final View rule;
+        private final TextView noteView;
 
         RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
-            indexView = itemView.findViewById(R.id.text_index);
             nameView = itemView.findViewById(R.id.text_recipe_name);
-            descriptionView = itemView.findViewById(R.id.text_recipe_description);
-            metaView = itemView.findViewById(R.id.text_recipe_meta);
-            missingView = itemView.findViewById(R.id.text_recipe_missing);
             statusStamp = itemView.findViewById(R.id.stamp_status);
-            rule = itemView.findViewById(R.id.row_rule);
+            noteView = itemView.findViewById(R.id.text_recipe_note);
         }
 
-        void bind(MatchResult result, int position, boolean isLast) {
-            rule.setVisibility(isLast ? View.GONE : View.VISIBLE);
+        void bind(MatchResult result) {
             final Recipe recipe = result.getRecipe();
-
-            indexView.setText(String.format(Locale.UK, "%02d", position + 1));
             nameView.setText(recipe.getName());
-            descriptionView.setText(recipe.getDescription());
-
-            String serves = itemView.getContext().getString(R.string.label_serves, recipe.getServes());
-            String minutes = itemView.getContext().getString(R.string.label_minutes, recipe.getPrepMinutes());
-            metaView.setText(serves + "  ·  " + minutes + "  ·  "
-                    + recipe.getIngredients().size() + " ingredients");
 
             boolean almost = result.getStatus() == MatchResult.Status.ALMOST;
+            statusStamp.setText(almost ? R.string.stamp_short : R.string.stamp_ready);
+            statusStamp.setTextColor(ContextCompat.getColor(itemView.getContext(),
+                    almost ? R.color.pen : R.color.ink_faint));
 
-            statusStamp.setVisibility(almost ? View.GONE : View.VISIBLE);
-            missingView.setVisibility(almost ? View.VISIBLE : View.GONE);
             if (almost) {
-                missingView.setText(itemView.getContext()
+                noteView.setText(itemView.getContext()
                         .getString(R.string.label_missing, result.getMissingSummary()));
+            } else {
+                String serves = itemView.getContext()
+                        .getString(R.string.label_serves, recipe.getServes());
+                String minutes = itemView.getContext()
+                        .getString(R.string.label_minutes, recipe.getPrepMinutes());
+                noteView.setText(serves + "  ·  " + minutes + "  ·  "
+                        + recipe.getIngredients().size() + " ingredients");
             }
-
-            rule.setBackgroundColor(ContextCompat.getColor(itemView.getContext(),
-                    almost ? R.color.citron_rule : R.color.rule));
+            noteView.setTextColor(ContextCompat.getColor(itemView.getContext(),
+                    almost ? R.color.pen : R.color.ink_muted));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

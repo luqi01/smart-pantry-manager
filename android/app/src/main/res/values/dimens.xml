@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  One 4dp spacing scale, used everywhere. The layouts previously mixed 1, 2, 6,
-  10, 12, 20, 44, 48, 72 and 88dp with no system behind it, which is what made
-  the screens feel arbitrary even though nothing was obviously wrong.
+  The page.
 
-  Rhythm comes from choosing different steps for different jobs: tight inside a
-  group, generous between groups.
+  A ruled page has one measurement that governs everything: the pitch between
+  its lines. Every row in the pantry is one pitch tall, or two when it carries a
+  note under it, so the writing always sits on a line rather than floating
+  between them. Nothing else is free to pick its own height.
+
+  The margin rule sits at margin_x and the writing starts at page_gutter, a
+  little clear of it, exactly as it does in an exercise book.
 -->
 <resources>
+    <dimen name="line_pitch">48dp</dimen>
+    <!-- How far the writing is lifted off the rule it sits on. -->
+    <dimen name="sit_on_rule">9dp</dimen>
+    <dimen name="margin_x">46dp</dimen>
+    <dimen name="page_gutter">58dp</dimen>
+    <dimen name="page_gutter_end">20dp</dimen>
+
     <dimen name="space_2xs">4dp</dimen>
     <dimen name="space_xs">8dp</dimen>
     <dimen name="space_sm">12dp</dimen>
@@ -16,12 +26,10 @@
     <dimen name="space_xl">32dp</dimen>
     <dimen name="space_2xl">48dp</dimen>
 
-    <dimen name="gutter">20dp</dimen>          <!-- screen side margin -->
+    <!-- Kept for the screens that are forms rather than lists. -->
+    <dimen name="gutter">20dp</dimen>
     <dimen name="touch_min">48dp</dimen>
     <dimen name="rule_thin">1dp</dimen>
-    <!-- Nearly square. A shelf ticket has a cut edge, not a rounded one, and
-         the soft 10dp radius was doing more than anything else to make the
-         screens look like a stock component library. -->
     <dimen name="radius_sm">2dp</dimen>
     <dimen name="radius_md">2dp</dimen>
 </resources>

@@ -22,7 +22,7 @@
     <string name="action_retry">Retry</string>
     <string name="action_clear_date">Clear date</string>
     <string name="action_add_ingredient">Add ingredient</string>
-    <string name="action_view">View</string>
+    <string name="action_view">See</string>
 
     <!-- Validation messages. Each names the field and says what to do, because
          a bare "invalid input" gives the user nothing to act on. -->
@@ -35,16 +35,17 @@
     <string name="error_quantity_large">That quantity looks too large. Check the unit.</string>
 
     <string name="empty_pantry">Add what you have at home and the recipes you can cook will appear under Recipes.</string>
-    <string name="empty_suggestions">No recipes match your pantry yet - add more ingredients.</string>
-    <string name="empty_almost">Nothing is one ingredient away just yet.</string>
+    <string name="empty_suggestions">nothing matches the shelves yet — add a few more ingredients</string>
+    <string name="empty_almost">nothing is one ingredient away just yet</string>
 
-    <string name="heading_suggested">You can cook these now</string>
-    <string name="heading_almost">Almost there</string>
+    <string name="heading_suggested">What you can make now</string>
+    <string name="heading_almost">One short</string>
     <string name="heading_almost_sub">One ingredient short of these. Worth a look before you shop.</string>
-    <string name="label_missing">Missing: %1$s</string>
-    <string name="label_serves">Serves %1$d</string>
+    <string name="label_missing">need %1$s</string>
+    <string name="label_serves">serves %1$d</string>
     <string name="label_minutes">%1$d min</string>
-    <string name="label_expires">Expires %1$s</string>
+    <string name="label_expires">expires %1$s</string>
+    <string name="label_use_by">use by %1$s</string>
     <string name="label_ingredients">Ingredients</string>
     <string name="label_method">Method</string>
 
@@ -71,7 +72,8 @@
     <!-- Short all-caps section labels -->
     <string name="stamp_in_the_house">In the house</string>
     <string name="stamp_expiry">Use by</string>
-    <string name="stamp_ready">Ready</string>
+    <string name="stamp_ready">ready</string>
+    <string name="stamp_short">1 short</string>
     <string name="stamp_use_soon">Use soon</string>
     <string name="stamp_empty">Empty shelf</string>
 
@@ -91,12 +93,12 @@
     <string name="stamp_display">Display</string>
     <string name="stamp_defaults">Defaults</string>
 
-    <string name="empty_pantry_title">Nothing in the pantry</string>
+    <string name="empty_pantry_title">nothing written down yet</string>
     <string name="heading_suggested_sub">Everything these need is already in the house.</string>
     <string name="form_subtitle">What you have, and how much of it.</string>
 
     <plurals name="strip_ready">
-        <item quantity="one">%1$d recipe ready from your shelves</item>
-        <item quantity="other">%1$d recipes ready from your shelves</item>
+        <item quantity="one">you can make %1$d thing tonight</item>
+        <item quantity="other">you can make %1$d things tonight</item>
     </plurals>
 </resources>

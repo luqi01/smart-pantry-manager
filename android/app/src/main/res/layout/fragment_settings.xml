@@ -24,8 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingStart="@dimen/gutter"
-        android:paddingEnd="@dimen/gutter"
+        android:paddingStart="@dimen/page_gutter"
+        android:paddingEnd="@dimen/page_gutter_end"
         android:paddingBottom="@dimen/space_lg">
 
         <!-- Grouped under stamped section labels, with a rule opening each
@@ -55,7 +55,7 @@
             app:boxCornerRadiusBottomStart="@dimen/radius_sm"
             app:boxCornerRadiusTopEnd="@dimen/radius_sm"
             app:boxCornerRadiusTopStart="@dimen/radius_sm"
-            app:boxStrokeColor="@color/tomato"
+            app:boxStrokeColor="@color/pen"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -74,7 +74,7 @@
             android:layout_marginTop="@dimen/space_xs"
             android:text="@string/settings_test"
             android:textAllCaps="false"
-            android:textColor="@color/tomato"
+            android:textColor="@color/pen"
             app:cornerRadius="@dimen/radius_md"
             app:strokeColor="@color/rule"
             style="@style/Widget.Material3.Button.OutlinedButton" />
@@ -178,7 +178,8 @@
         android:textStyle="bold"
         android:textAllCaps="false"
         android:textSize="17sp"
-        app:backgroundTint="@color/tomato"
+        android:textColor="@color/on_ink"
+        app:backgroundTint="@color/ink"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
