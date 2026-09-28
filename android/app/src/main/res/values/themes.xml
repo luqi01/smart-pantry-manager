@@ -6,6 +6,10 @@
         <item name="colorPrimaryContainer">@color/green_100</item>
         <item name="colorOnPrimaryContainer">@color/green_700</item>
         <item name="colorSecondary">@color/green_500</item>
+        <!-- The bottom navigation active indicator is drawn from
+             colorSecondaryContainer, which defaults to lavender. -->
+        <item name="colorSecondaryContainer">@color/green_100</item>
+        <item name="colorOnSecondaryContainer">@color/green_700</item>
         <item name="android:colorBackground">@color/grey_50</item>
         <item name="colorSurface">@color/white</item>
         <item name="android:statusBarColor" tools:targetApi="21">@color/green_700</item>
