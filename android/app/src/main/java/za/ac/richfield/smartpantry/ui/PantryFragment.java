@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -23,11 +24,16 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.List;
 
 import za.ac.richfield.smartpantry.AddEditIngredientActivity;
+import za.ac.richfield.smartpantry.MainActivity;
 import za.ac.richfield.smartpantry.R;
 import za.ac.richfield.smartpantry.adapter.PantryAdapter;
 import za.ac.richfield.smartpantry.data.ApiClient;
 import za.ac.richfield.smartpantry.data.PantryRepository;
+import za.ac.richfield.smartpantry.data.RecipeRepository;
+import za.ac.richfield.smartpantry.logic.RecipeMatcher;
 import za.ac.richfield.smartpantry.model.PantryItem;
+import za.ac.richfield.smartpantry.model.Recipe;
+import za.ac.richfield.smartpantry.util.Prefs;
 
 /**
  * The pantry list: everything the user currently has at home.
@@ -45,11 +51,14 @@ import za.ac.richfield.smartpantry.model.PantryItem;
 public class PantryFragment extends Fragment implements PantryAdapter.OnItemAction {
 
     private PantryRepository repository;
+    private RecipeRepository recipeRepository;
     private PantryAdapter adapter;
 
     private RecyclerView recycler;
     private View emptyState;
     private ProgressBar progress;
+    private View readyStrip;
+    private TextView readyCount;
 
     private ActivityResultLauncher<Intent> editLauncher;
 
@@ -57,6 +66,7 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         repository = new PantryRepository(requireContext());
+        recipeRepository = new RecipeRepository(requireContext());
 
         // Registered here rather than at the call site because the framework
         // requires registration before the fragment reaches STARTED.
@@ -95,6 +105,10 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
 
         MaterialButton add = view.findViewById(R.id.fab_add);
         add.setOnClickListener(v -> openEditor(null));
+
+        readyStrip = view.findViewById(R.id.strip_ready);
+        readyCount = view.findViewById(R.id.text_ready_count);
+        readyStrip.setOnClickListener(v -> ((MainActivity) requireActivity()).showSuggestions());
     }
 
     @Override
@@ -118,6 +132,7 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
                 boolean empty = items == null || items.isEmpty();
                 emptyState.setVisibility(empty ? View.VISIBLE : View.GONE);
                 recycler.setVisibility(empty ? View.GONE : View.VISIBLE);
+                summarise(items);
             }
 
             @Override
@@ -129,6 +144,60 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
                 showError(message);
             }
         });
+    }
+
+    /**
+     * Fills the masthead counts and the prompt above the add button.
+     *
+     * <p>How many recipes the pantry unlocks is the question the app exists to
+     * answer, so it is worth a second request to put the number on this screen
+     * rather than making the user change tab to find out. The recipes are
+     * cached after the first fetch, so in practice this is one network call on
+     * a cold start and none afterwards.
+     */
+    private void summarise(final List<PantryItem> items) {
+        final int total = items == null ? 0 : items.size();
+        int soon = 0;
+        if (new Prefs(requireContext()).isExpiryAlertsEnabled() && items != null) {
+            for (PantryItem item : items) {
+                if (PantryAdapter.isExpiringSoon(item)) {
+                    soon++;
+                }
+            }
+        }
+        final int expiring = soon;
+
+        recipeRepository.readAll(false, new ApiClient.Callback<List<Recipe>>() {
+            @Override
+            public void onSuccess(List<Recipe> recipes) {
+                if (!isAdded()) {
+                    return;
+                }
+                int ready = RecipeMatcher.suggested(recipes, items).size();
+                showStats(total, expiring, String.valueOf(ready));
+                readyStrip.setVisibility(ready > 0 ? View.VISIBLE : View.GONE);
+                readyCount.setText(getResources()
+                        .getQuantityString(R.plurals.strip_ready, ready, ready));
+            }
+
+            @Override
+            public void onFailure(String message) {
+                if (!isAdded()) {
+                    return;
+                }
+                // The pantry itself loaded, so its two counts still stand. The
+                // third is unknown rather than zero, and says so.
+                showStats(total, expiring, getString(R.string.stat_unknown));
+                readyStrip.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void showStats(int total, int expiring, String ready) {
+        ((MainActivity) requireActivity()).setStats(
+                String.valueOf(total), R.string.stat_items,
+                String.valueOf(expiring), R.string.stat_use_soon,
+                ready, R.string.stat_can_cook);
     }
 
     private void showError(String message) {

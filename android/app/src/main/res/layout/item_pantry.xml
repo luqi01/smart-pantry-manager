@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   A ledger row, not a card. Cards around every row would put twenty containers
-  on screen and make the list feel heavier than the information in it. A
-  hairline rule and generous vertical padding separate rows perfectly well,
-  and the quantity gets its own stamped label so the eye can scan the column.
+  on screen and make the list feel heavier than the information in it.
+
+  Three columns, so the eye can read down any one of them: a running index on
+  the left, the name in the middle, the quantity set as a figure on the right
+  with its unit stamped underneath. A pantry is a list of amounts and the screen
+  should look like one - the quantity was previously a small chip that read as
+  an afterthought rather than the number you came to check.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,16 +22,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="@dimen/gutter"
-        android:paddingTop="@dimen/space_sm"
+        android:paddingTop="@dimen/space_md"
         android:paddingEnd="@dimen/space_xs"
-        android:paddingBottom="@dimen/space_sm">
+        android:paddingBottom="@dimen/space_md">
+
+        <TextView
+            android:id="@+id/text_index"
+            android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginTop="5dp"
+            tools:text="02"
+            style="@style/Text.Index" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="top"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -40,34 +55,71 @@
                 tools:text="Cheddar Cheese"
                 style="@style/Text.Item" />
 
-            <TextView
-                android:id="@+id/text_expiry"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/group_expiry"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_2xs"
-                android:visibility="gone"
-                tools:text="Expires soon - 1 Oct 2026"
-                style="@style/Text.Meta" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/chip_expiry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_2xs"
+                    android:background="@drawable/bg_chip_chilli"
+                    android:paddingStart="5dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="5dp"
+                    android:paddingBottom="3dp"
+                    android:text="@string/stamp_use_soon"
+                    android:textColor="@color/chilli"
+                    android:visibility="gone"
+                    style="@style/Text.Stamp" />
+
+                <TextView
+                    android:id="@+id/text_expiry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    tools:text="1 Oct 2026"
+                    style="@style/Text.Meta" />
+            </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/text_amount"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="76dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_sm"
-            android:background="@drawable/bg_amount"
-            android:paddingStart="@dimen/space_xs"
-            android:paddingTop="5dp"
-            android:paddingEnd="@dimen/space_xs"
-            android:paddingBottom="5dp"
-            tools:text="200 g"
-            style="@style/Text.Amount" />
+            android:layout_marginStart="@dimen/space_xs"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                tools:text="200"
+                style="@style/Text.Amount" />
+
+            <TextView
+                android:id="@+id/text_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="2dp"
+                tools:text="g"
+                style="@style/Text.Stamp" />
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/button_edit"
             android:layout_width="@dimen/touch_min"
             android:layout_height="@dimen/touch_min"
-            android:layout_marginStart="@dimen/space_2xs"
+            android:layout_marginStart="@dimen/space_sm"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_edit"
             android:padding="@dimen/space_sm"

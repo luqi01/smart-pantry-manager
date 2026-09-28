@@ -1,32 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Larder palette. Warm throughout: no pure black, no pure white, and the
-  neutrals are tinted toward the paprika hue so the surfaces and the accent
-  feel related rather than merely adjacent.
+  Greengrocer palette: the colours of produce and enamel kitchenware rather
+  than the kraft-and-terracotta that every warm interface reaches for.
 
-  Weighting is roughly 60 / 30 / 10 - paper and ink carry the screen, and
-  paprika is rare enough to still mean something when it appears.
+  Three families. Paper is a cool cream with a green cast, so it reads as fresh
+  rather than aged. Field is the bottle green block at the top of every screen.
+  The accents are picked off a market stall - tomato for the thing to do next,
+  grass for what is ready, citron for what is nearly ready, chilli for what
+  needs using up.
+
+  Every neutral is tinted toward the green, so the surfaces and the field feel
+  related rather than merely adjacent, and nothing here is pure black or white.
+  Weighting is roughly 60 / 30 / 10: paper carries the screen, the field and the
+  rules carry the structure, and tomato is rare enough to still mean something.
 -->
 <resources>
     <!-- surfaces -->
-    <color name="paper">#F6F1E8</color>          <!-- kraft, the app background -->
-    <color name="paper_raised">#FCF9F3</color>   <!-- a shade lighter, for rows -->
-    <color name="paper_sunken">#EDE5D7</color>   <!-- pressed and inset states -->
+    <color name="paper">#F2F6EE</color>          <!-- celery cream, the background -->
+    <color name="paper_raised">#FAFCF7</color>   <!-- a shade lighter, for rows -->
+    <color name="paper_sunken">#E5EDE0</color>   <!-- pressed and inset states -->
 
     <!-- ink -->
-    <color name="ink">#231C16</color>            <!-- warm near-black, never #000 -->
-    <color name="ink_muted">#6E6157</color>
-    <color name="ink_faint">#A2958A</color>
-    <color name="rule">#DFD5C4</color>           <!-- hairline dividers -->
+    <color name="ink">#13251C</color>            <!-- deep green-black, never #000 -->
+    <color name="ink_muted">#556B5C</color>
+    <color name="ink_faint">#8CA091</color>
+    <color name="rule">#D4E0CE</color>           <!-- hairline dividers -->
+
+    <!-- the field: the masthead block and anything reversed out of it.
+         Lighter and less saturated than their paper counterparts, because a
+         colour that reads as rich on cream goes muddy on bottle green. -->
+    <color name="field">#123B2C</color>
+    <color name="field_dim">#9DB5A4</color>      <!-- labels on the field -->
+    <color name="field_line">#27503F</color>     <!-- hairlines on the field -->
+    <color name="lime">#C6E84F</color>           <!-- the field's accent -->
 
     <!-- accents -->
-    <color name="paprika">#A83B12</color>        <!-- primary: labels, actions -->
-    <color name="paprika_wash">#F2DFD4</color>
-    <color name="olive">#4F5D2B</color>          <!-- affirmative: can cook now -->
-    <color name="olive_wash">#E4E7D2</color>
-    <color name="mustard">#8A6410</color>        <!-- almost there -->
-    <color name="mustard_wash">#F3E8CC</color>
-    <color name="rust">#8F2D1B</color>           <!-- destructive, expiring -->
+    <color name="tomato">#C63D1B</color>         <!-- primary: actions, figures -->
+    <color name="tomato_wash">#FBE2D9</color>
+    <color name="grass">#2E7D46</color>          <!-- affirmative: can cook now -->
+    <color name="grass_wash">#DCEFDF</color>
+    <color name="citron">#5E7C10</color>         <!-- almost there -->
+    <color name="citron_wash">#EDF4D6</color>
+    <color name="citron_rule">#D8E5AE</color>    <!-- hairline inside the wash -->
+    <!-- A chip sitting inside the wash needs to be a shade deeper than it, or
+         it disappears into the band it is meant to stand out from. -->
+    <color name="citron_chip">#DFEAB4</color>
+    <color name="chilli">#A8301A</color>         <!-- destructive, expiring -->
+    <color name="chilli_wash">#F8DED7</color>
 
-    <color name="white">#FFFFFF</color>
+    <!-- Text on a filled accent. Off-white: pure white on a warm red glares. -->
+    <color name="on_accent">#FFF7F3</color>
 </resources>

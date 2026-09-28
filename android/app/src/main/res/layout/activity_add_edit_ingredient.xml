@@ -10,13 +10,12 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/paper"
+        android:background="@color/field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIconTint="@color/ink"
-        app:title=""
-        app:titleTextColor="@color/ink" />
+        app:navigationIconTint="@color/paper"
+        app:title="" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -31,27 +30,66 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="@dimen/gutter"
-            android:paddingEnd="@dimen/gutter"
             android:paddingBottom="@dimen/space_2xl">
 
-            <TextView
-                android:id="@+id/text_form_title"
+            <!-- The same ink header as the list screens, so adding an
+                 ingredient reads as part of the app rather than a form that
+                 happens to be in it. -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/display"
-                android:letterSpacing="-0.02"
-                android:textColor="@color/ink"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+                android:background="@color/field"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/gutter"
+                android:paddingEnd="@dimen/gutter"
+                android:paddingBottom="@dimen/space_lg">
 
-            <TextView
+                <TextView
+                    android:id="@+id/text_form_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Text.Masthead" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_xs"
+                    android:text="@string/form_subtitle"
+                    android:textColor="@color/field_dim"
+                    style="@style/Text.Body" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginBottom="@dimen/space_lg"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:background="@color/tomato" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@color/lime" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:background="@color/grass" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_2xs"
-                android:layout_marginBottom="@dimen/space_lg"
-                android:text="@string/form_subtitle"
-                style="@style/Text.Body" />
+                android:orientation="vertical"
+                android:paddingStart="@dimen/gutter"
+                android:paddingEnd="@dimen/gutter">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_name"
@@ -62,7 +100,7 @@
                 app:boxCornerRadiusBottomStart="@dimen/radius_sm"
                 app:boxCornerRadiusTopEnd="@dimen/radius_sm"
                 app:boxCornerRadiusTopStart="@dimen/radius_sm"
-                app:boxStrokeColor="@color/paprika"
+                app:boxStrokeColor="@color/tomato"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -102,7 +140,7 @@
                     app:boxCornerRadiusBottomStart="@dimen/radius_sm"
                     app:boxCornerRadiusTopEnd="@dimen/radius_sm"
                     app:boxCornerRadiusTopStart="@dimen/radius_sm"
-                    app:boxStrokeColor="@color/paprika"
+                    app:boxStrokeColor="@color/tomato"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -132,7 +170,8 @@
                     <Spinner
                         android:id="@+id/spinner_unit"
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="4dp"
                         android:background="@drawable/bg_amount"
                         android:paddingStart="@dimen/space_sm"
                         android:paddingEnd="@dimen/space_xs" />
@@ -156,7 +195,7 @@
                 app:boxCornerRadiusBottomStart="@dimen/radius_sm"
                 app:boxCornerRadiusTopEnd="@dimen/radius_sm"
                 app:boxCornerRadiusTopStart="@dimen/radius_sm"
-                app:boxStrokeColor="@color/paprika"
+                app:boxStrokeColor="@color/tomato"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -174,6 +213,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_2xs"
+                android:insetLeft="0dp"
                 android:paddingStart="0dp"
                 android:text="@string/action_clear_date"
                 android:textAllCaps="false"
@@ -190,7 +230,7 @@
                 android:text="@string/action_save"
                 android:textAllCaps="false"
                 android:textSize="16sp"
-                app:backgroundTint="@color/paprika"
+                app:backgroundTint="@color/tomato"
                 app:cornerRadius="@dimen/radius_md" />
 
             <!-- Secondary, and styled as secondary. Making both buttons solid
@@ -203,13 +243,14 @@
                 android:layout_marginTop="@dimen/space_xs"
                 android:text="@string/action_delete"
                 android:textAllCaps="false"
-                android:textColor="@color/rust"
+                android:textColor="@color/chilli"
                 android:textSize="15sp"
                 android:visibility="gone"
                 app:cornerRadius="@dimen/radius_md"
                 app:strokeColor="@color/rule"
                 style="@style/Widget.Material3.Button.OutlinedButton" />
 
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

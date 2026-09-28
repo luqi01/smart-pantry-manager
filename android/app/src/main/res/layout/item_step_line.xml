@@ -15,7 +15,7 @@
         android:background="@drawable/bg_step_number"
         android:fontFamily="@font/display"
         android:gravity="center"
-        android:textColor="@color/paprika"
+        android:textColor="@color/lime"
         android:textSize="13sp"
         android:textStyle="bold" />
 

@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Two lists that mean different things, so they are built out of different
+  material rather than the same rows under a different heading.
+
+  The first sits on the paper: full width, largest headline on the screen, one
+  row per recipe you can cook right now. The second sits inside a tinted band
+  that runs edge to edge, which marks it as a secondary, optional list without
+  needing a line of explanation - and fills the lower half of the screen that
+  used to be empty whenever nothing was one ingredient short.
+-->
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,13 +20,13 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/space_2xl">
+            android:orientation="vertical">
 
             <ProgressBar
                 android:id="@+id/progress"
@@ -24,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/space_2xl"
-                android:indeterminateTint="@color/paprika"
+                android:indeterminateTint="@color/tomato"
                 android:visibility="gone" />
 
             <!-- Primary list. Given the most room on the screen and the only
@@ -38,15 +48,15 @@
                 android:paddingEnd="@dimen/gutter"
                 android:text="@string/heading_suggested"
                 android:textColor="@color/ink"
-                style="@style/Text.Title" />
+                style="@style/Text.Screen" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/gutter"
                 android:paddingTop="@dimen/space_2xs"
-                android:paddingEnd="@dimen/gutter"
-                android:paddingBottom="@dimen/space_sm"
+                android:paddingEnd="@dimen/space_2xl"
+                android:paddingBottom="@dimen/space_xs"
                 android:text="@string/heading_suggested_sub"
                 style="@style/Text.Meta" />
 
@@ -68,45 +78,54 @@
                 android:visibility="gone"
                 style="@style/Text.Body" />
 
-            <!-- A generous gap, not a divider line, does the separating here.
-                 The two lists mean different things and the space says so. -->
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/rule_thin"
-                android:layout_marginStart="@dimen/gutter"
-                android:layout_marginTop="@dimen/space_xl"
-                android:layout_marginEnd="@dimen/gutter"
-                android:background="@color/rule" />
-
-            <TextView
-                android:id="@+id/heading_almost"
+            <LinearLayout
+                android:id="@+id/panel_almost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/gutter"
+                android:layout_weight="1"
+                android:background="@color/citron_wash"
+                android:layout_marginTop="@dimen/space_lg"
+                android:orientation="vertical"
                 android:paddingTop="@dimen/space_lg"
-                android:paddingEnd="@dimen/gutter"
-                android:paddingBottom="@dimen/space_xs"
-                android:text="@string/heading_almost"
-                android:textColor="@color/mustard"
-                style="@style/Text.Stamp" />
+                android:paddingBottom="@dimen/space_lg">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_almost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                <TextView
+                    android:id="@+id/heading_almost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/gutter"
+                    android:paddingEnd="@dimen/gutter"
+                    android:text="@string/heading_almost"
+                    android:textColor="@color/citron"
+                    style="@style/Text.Stamp" />
 
-            <TextView
-                android:id="@+id/text_empty_almost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/gutter"
-                android:paddingEnd="@dimen/space_2xl"
-                android:paddingBottom="@dimen/space_md"
-                android:text="@string/empty_almost"
-                android:visibility="gone"
-                style="@style/Text.Body" />
+                <TextView
+                    android:id="@+id/text_almost_sub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/gutter"
+                    android:paddingTop="@dimen/space_2xs"
+                    android:paddingEnd="@dimen/space_2xl"
+                    android:text="@string/heading_almost_sub"
+                    style="@style/Text.Body" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_almost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+
+                <TextView
+                    android:id="@+id/text_empty_almost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/gutter"
+                    android:paddingTop="@dimen/space_sm"
+                    android:paddingEnd="@dimen/space_2xl"
+                    android:text="@string/empty_almost"
+                    android:visibility="gone"
+                    style="@style/Text.Body" />
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

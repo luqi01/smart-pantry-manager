@@ -22,6 +22,7 @@
     <string name="action_retry">Retry</string>
     <string name="action_clear_date">Clear date</string>
     <string name="action_add_ingredient">Add ingredient</string>
+    <string name="action_view">View</string>
 
     <!-- Validation messages. Each names the field and says what to do, because
          a bare "invalid input" gives the user nothing to act on. -->
@@ -39,11 +40,11 @@
 
     <string name="heading_suggested">You can cook these now</string>
     <string name="heading_almost">Almost there</string>
+    <string name="heading_almost_sub">One ingredient short of these. Worth a look before you shop.</string>
     <string name="label_missing">Missing: %1$s</string>
     <string name="label_serves">Serves %1$d</string>
     <string name="label_minutes">%1$d min</string>
     <string name="label_expires">Expires %1$s</string>
-    <string name="label_expiring_soon">Expires soon - %1$s</string>
     <string name="label_ingredients">Ingredients</string>
     <string name="label_method">Method</string>
 
@@ -70,6 +71,22 @@
     <!-- Short all-caps section labels -->
     <string name="stamp_in_the_house">In the house</string>
     <string name="stamp_expiry">Use by</string>
+    <string name="stamp_ready">Ready</string>
+    <string name="stamp_use_soon">Use soon</string>
+    <string name="stamp_empty">Empty shelf</string>
+
+    <!-- Masthead: the eyebrow above each screen name, and the labels under the
+         three counts it carries. -->
+    <string name="eyebrow_suggestions">From your shelves</string>
+    <string name="eyebrow_settings">Smart Pantry</string>
+    <string name="stat_items">Items</string>
+    <string name="stat_use_soon">Use soon</string>
+    <string name="stat_can_cook">Can cook</string>
+    <string name="stat_ready">Ready now</string>
+    <string name="stat_almost">One short</string>
+    <string name="stat_recipes">Recipes</string>
+    <!-- Shown in place of a count the app could not work out. -->
+    <string name="stat_unknown">–</string>
     <string name="stamp_connection">Connection</string>
     <string name="stamp_display">Display</string>
     <string name="stamp_defaults">Defaults</string>
@@ -77,4 +94,9 @@
     <string name="empty_pantry_title">Nothing in the pantry</string>
     <string name="heading_suggested_sub">Everything these need is already in the house.</string>
     <string name="form_subtitle">What you have, and how much of it.</string>
+
+    <plurals name="strip_ready">
+        <item quantity="one">%1$d recipe ready from your shelves</item>
+        <item quantity="other">%1$d recipes ready from your shelves</item>
+    </plurals>
 </resources>

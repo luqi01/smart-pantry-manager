@@ -32,7 +32,7 @@
             android:exported="false"
             android:label="@string/title_add_ingredient"
             android:parentActivityName=".MainActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
             android:name=".RecipeDetailActivity"

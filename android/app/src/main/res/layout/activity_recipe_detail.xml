@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  The recipe opens with the same ink field as the list screens, carrying the
+  name reversed out of it. Coming from a row on a cream list into a solid block
+  makes the transition read as going somewhere, and the name is then the largest
+  thing on the screen by a clear margin.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paper">
@@ -10,13 +17,12 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/paper"
+        android:background="@color/field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIconTint="@color/ink"
-        app:title=""
-        app:titleTextColor="@color/ink" />
+        app:navigationIconTint="@color/paper"
+        app:title="" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -31,71 +37,101 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="@dimen/gutter"
-            android:paddingEnd="@dimen/gutter"
             android:paddingBottom="@dimen/space_2xl">
 
-            <TextView
-                android:id="@+id/text_meta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/paprika"
-                style="@style/Text.Stamp" />
-
-            <!-- The name is the largest thing on the screen by a clear margin,
-                 so the page has an obvious entry point. -->
-            <TextView
-                android:id="@+id/text_name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_xs"
-                android:fontFamily="@font/display"
-                android:letterSpacing="-0.025"
-                android:lineSpacingMultiplier="1.05"
-                android:textColor="@color/ink"
-                android:textSize="32sp"
-                android:textStyle="bold" />
+                android:background="@color/field"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/gutter"
+                android:paddingEnd="@dimen/gutter"
+                android:paddingBottom="@dimen/space_lg">
 
-            <TextView
-                android:id="@+id/text_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_sm"
-                style="@style/Text.Body" />
+                <TextView
+                    android:id="@+id/text_meta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Serves 1 · 10 min"
+                    style="@style/Text.Stamp.Eyebrow" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/rule_thin"
-                android:layout_marginTop="@dimen/space_lg"
-                android:background="@color/rule" />
+                <TextView
+                    android:id="@+id/text_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_xs"
+                    android:lineSpacingMultiplier="1.02"
+                    tools:text="Cheese Omelette"
+                    style="@style/Text.Masthead" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_lg"
-                android:text="@string/label_ingredients"
-                style="@style/Text.Stamp" />
+                <TextView
+                    android:id="@+id/text_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_sm"
+                    android:textColor="@color/field_dim"
+                    style="@style/Text.Body" />
+            </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/container_ingredients"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_xs"
-                android:orientation="vertical" />
+                android:layout_height="4dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_xl"
-                android:text="@string/label_method"
-                style="@style/Text.Stamp" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:background="@color/tomato" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@color/lime" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:background="@color/grass" />
+            </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/container_steps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_sm"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:paddingStart="@dimen/gutter"
+                android:paddingEnd="@dimen/gutter">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:text="@string/label_ingredients"
+                    style="@style/Text.Stamp" />
+
+                <LinearLayout
+                    android:id="@+id/container_ingredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_xs"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_xl"
+                    android:text="@string/label_method"
+                    style="@style/Text.Stamp" />
+
+                <LinearLayout
+                    android:id="@+id/container_steps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_sm"
+                    android:orientation="vertical" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

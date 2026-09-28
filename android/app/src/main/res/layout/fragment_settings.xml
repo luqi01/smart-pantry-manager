@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+  The form scrolls; Save does not. It sits on the bottom edge in the same place
+  as Add on the pantry screen, so the action is where it is on every other
+  screen instead of below the fold on a long form.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/paper"
-    android:scrollbars="none">
+    android:background="@color/paper">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/button_save_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,11 +26,11 @@
         android:orientation="vertical"
         android:paddingStart="@dimen/gutter"
         android:paddingEnd="@dimen/gutter"
-        android:paddingBottom="@dimen/space_2xl">
+        android:paddingBottom="@dimen/space_lg">
 
-        <!-- Grouped under stamped section labels. Previously every control ran
-             together in one column, so nothing indicated which settings
-             belonged with which. -->
+        <!-- Grouped under stamped section labels, with a rule opening each
+             group. Previously every control ran together in one column, so
+             nothing indicated which settings belonged with which. -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +55,7 @@
             app:boxCornerRadiusBottomStart="@dimen/radius_sm"
             app:boxCornerRadiusTopEnd="@dimen/radius_sm"
             app:boxCornerRadiusTopStart="@dimen/radius_sm"
-            app:boxStrokeColor="@color/paprika"
+            app:boxStrokeColor="@color/tomato"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -60,7 +74,7 @@
             android:layout_marginTop="@dimen/space_xs"
             android:text="@string/settings_test"
             android:textAllCaps="false"
-            android:textColor="@color/paprika"
+            android:textColor="@color/tomato"
             app:cornerRadius="@dimen/radius_md"
             app:strokeColor="@color/rule"
             style="@style/Widget.Material3.Button.OutlinedButton" />
@@ -73,10 +87,16 @@
             android:textSize="14sp"
             android:visibility="gone" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/rule_thin"
+            android:layout_marginTop="@dimen/space_xl"
+            android:background="@color/rule" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginTop="@dimen/space_lg"
             android:text="@string/stamp_display"
             style="@style/Text.Stamp" />
 
@@ -114,10 +134,16 @@
             android:text="@string/settings_almost_summary"
             style="@style/Text.Meta" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/rule_thin"
+            android:layout_marginTop="@dimen/space_xl"
+            android:background="@color/rule" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginTop="@dimen/space_lg"
             android:text="@string/stamp_defaults"
             style="@style/Text.Stamp" />
 
@@ -137,17 +163,24 @@
             android:paddingStart="@dimen/space_sm"
             android:paddingEnd="@dimen/space_xs" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_save_settings"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginTop="@dimen/space_xl"
-            android:fontFamily="@font/display"
-            android:text="@string/action_save"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            app:backgroundTint="@color/paprika"
-            app:cornerRadius="@dimen/radius_md" />
-
     </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_save_settings"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:fontFamily="@font/display"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:letterSpacing="0.01"
+        android:text="@string/action_save"
+        android:textAllCaps="false"
+        android:textSize="17sp"
+        app:backgroundTint="@color/tomato"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

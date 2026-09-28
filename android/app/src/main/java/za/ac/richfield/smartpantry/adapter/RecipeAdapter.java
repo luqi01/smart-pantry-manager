@@ -6,10 +6,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import za.ac.richfield.smartpantry.R;
 import za.ac.richfield.smartpantry.model.MatchResult;
@@ -19,10 +21,16 @@ import za.ac.richfield.smartpantry.model.Recipe;
  * Binds match results to rows on the Suggested Recipes screen.
  *
  * <p>Takes {@link MatchResult} rather than {@link Recipe} because the row needs
- * the verdict as well as the recipe: a suggested row shows a green tick, an
+ * the verdict as well as the recipe: a suggested row is stamped as ready, an
  * "Almost There" row shows what is missing. Passing the recipe alone would mean
  * recomputing the match inside {@code onBindViewHolder}, which runs on every
  * scroll.
+ *
+ * <p>Both lists on the screen use this one adapter, and the verdict is what
+ * separates them visually. A ready row carries a grass stamp beside the name;
+ * an almost row carries a citron chip naming the gap and sits inside a tinted
+ * band, so its hairline is tinted to match rather than cutting a grey line
+ * across the colour.
  */
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
@@ -55,9 +63,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-        // The divider below the list already closes the group, so a rule under
-        // the final row would draw a second hairline beside it.
-        holder.bind(results.get(position), position == results.size() - 1);
+        // The band below the list already closes the group, so a rule under the
+        // final row would draw a second hairline beside it.
+        holder.bind(results.get(position), position, position == results.size() - 1);
     }
 
     @Override
@@ -67,24 +75,30 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
 
+        private final TextView indexView;
         private final TextView nameView;
         private final TextView descriptionView;
         private final TextView metaView;
         private final TextView missingView;
+        private final TextView statusStamp;
         private final View rule;
 
         RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
+            indexView = itemView.findViewById(R.id.text_index);
             nameView = itemView.findViewById(R.id.text_recipe_name);
             descriptionView = itemView.findViewById(R.id.text_recipe_description);
             metaView = itemView.findViewById(R.id.text_recipe_meta);
             missingView = itemView.findViewById(R.id.text_recipe_missing);
+            statusStamp = itemView.findViewById(R.id.stamp_status);
             rule = itemView.findViewById(R.id.row_rule);
         }
 
-        void bind(MatchResult result, boolean isLast) {
+        void bind(MatchResult result, int position, boolean isLast) {
             rule.setVisibility(isLast ? View.GONE : View.VISIBLE);
             final Recipe recipe = result.getRecipe();
+
+            indexView.setText(String.format(Locale.UK, "%02d", position + 1));
             nameView.setText(recipe.getName());
             descriptionView.setText(recipe.getDescription());
 
@@ -93,13 +107,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             metaView.setText(serves + "  ·  " + minutes + "  ·  "
                     + recipe.getIngredients().size() + " ingredients");
 
-            if (result.getStatus() == MatchResult.Status.ALMOST) {
-                missingView.setVisibility(View.VISIBLE);
+            boolean almost = result.getStatus() == MatchResult.Status.ALMOST;
+
+            statusStamp.setVisibility(almost ? View.GONE : View.VISIBLE);
+            missingView.setVisibility(almost ? View.VISIBLE : View.GONE);
+            if (almost) {
                 missingView.setText(itemView.getContext()
                         .getString(R.string.label_missing, result.getMissingSummary()));
-            } else {
-                missingView.setVisibility(View.GONE);
             }
+
+            rule.setBackgroundColor(ContextCompat.getColor(itemView.getContext(),
+                    almost ? R.color.citron_rule : R.color.rule));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

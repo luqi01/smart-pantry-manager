@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  The title sits on the paper rather than in a coloured bar. A filled toolbar
-  would put a heavy band across the top of every screen and fight the content
-  for attention; a hairline under the title does the same separating job quietly.
+  Host layout: masthead, a container the three fragments swap through, and the
+  navigation bar.
+
+  The masthead is part of the host rather than each fragment so that it stays
+  put while the content under it changes, and so the three screens cannot drift
+  apart in how their heading is set.
 -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,29 +14,14 @@
     android:layout_height="match_parent"
     android:background="@color/paper">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <include
+        android:id="@+id/masthead"
+        layout="@layout/view_masthead"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/paper"
-        android:paddingStart="@dimen/space_xs"
-        android:paddingTop="@dimen/space_xs"
-        android:paddingBottom="@dimen/space_2xs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:titleCentered="false"
-        app:titleTextAppearance="@style/Text.Screen"
-        app:titleTextColor="@color/ink" />
-
-    <View
-        android:id="@+id/toolbar_rule"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/rule_thin"
-        android:background="@color/rule"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -42,7 +30,7 @@
         app:layout_constraintBottom_toTopOf="@id/nav_rule"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_rule" />
+        app:layout_constraintTop_toBottomOf="@id/masthead" />
 
     <View
         android:id="@+id/nav_rule"

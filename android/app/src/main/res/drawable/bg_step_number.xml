@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  A solid disc in the masthead colour rather than a pale tint. It gives the
+  method column a spine that ties back to the top of the screen, and keeps the
+  tomato accent for the one action on each screen instead of spreading it
+  around as decoration.
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
-    <solid android:color="@color/paprika_wash" />
+    <solid android:color="@color/field" />
 </shape>

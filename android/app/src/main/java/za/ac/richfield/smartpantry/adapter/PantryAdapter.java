@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +34,12 @@ import za.ac.richfield.smartpantry.util.Prefs;
  * looks its views up once when it is created and the RecyclerView then recycles
  * that holder as rows scroll off screen. Without it, scrolling a long pantry
  * would stutter.
+ *
+ * <p>The row is laid out as three columns and the adapter fills each one
+ * separately: the position as a running index, the name, and the quantity split
+ * from its unit so the figure can be set large with the unit stamped beneath
+ * it. Splitting here rather than in the layout keeps the formatting decision
+ * next to the data it applies to.
  */
 public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryViewHolder> {
 
@@ -66,6 +73,42 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         notifyDataSetChanged();
     }
 
+    /**
+     * Whether an item falls inside the expiry warning window.
+     *
+     * <p>Static and public because the masthead counts expiring items and the
+     * row highlights them, and the two should agree on what "soon" means. Two
+     * copies of the same comparison would eventually drift apart.
+     */
+    public static boolean isExpiringSoon(@Nullable PantryItem item) {
+        if (item == null) {
+            return false;
+        }
+        Date date = parseIso(item.getExpiryDate());
+        return date != null && daysUntil(date) <= Prefs.EXPIRY_WARNING_DAYS;
+    }
+
+    private static Date parseIso(String value) {
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+        try {
+            // The server may return a full timestamp; only the date matters.
+            return ISO.parse(value.length() > 10 ? value.substring(0, 10) : value);
+        } catch (ParseException exception) {
+            return null;
+        }
+    }
+
+    private static long daysUntil(Date date) {
+        Calendar midnight = Calendar.getInstance();
+        midnight.set(Calendar.HOUR_OF_DAY, 0);
+        midnight.set(Calendar.MINUTE, 0);
+        midnight.set(Calendar.SECOND, 0);
+        midnight.set(Calendar.MILLISECOND, 0);
+        return TimeUnit.MILLISECONDS.toDays(date.getTime() - midnight.getTimeInMillis());
+    }
+
     @NonNull
     @Override
     public PantryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -76,7 +119,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
 
     @Override
     public void onBindViewHolder(@NonNull PantryViewHolder holder, int position) {
-        holder.bind(items.get(position), position == items.size() - 1);
+        holder.bind(items.get(position), position, position == items.size() - 1);
     }
 
     @Override
@@ -86,8 +129,12 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
 
     class PantryViewHolder extends RecyclerView.ViewHolder {
 
+        private final TextView indexView;
         private final TextView nameView;
         private final TextView amountView;
+        private final TextView unitView;
+        private final View expiryGroup;
+        private final TextView expiryChip;
         private final TextView expiryView;
         private final ImageButton editButton;
         private final ImageButton deleteButton;
@@ -95,18 +142,29 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
 
         PantryViewHolder(@NonNull View itemView) {
             super(itemView);
+            indexView = itemView.findViewById(R.id.text_index);
             nameView = itemView.findViewById(R.id.text_name);
             amountView = itemView.findViewById(R.id.text_amount);
+            unitView = itemView.findViewById(R.id.text_unit);
+            expiryGroup = itemView.findViewById(R.id.group_expiry);
+            expiryChip = itemView.findViewById(R.id.chip_expiry);
             expiryView = itemView.findViewById(R.id.text_expiry);
             editButton = itemView.findViewById(R.id.button_edit);
             deleteButton = itemView.findViewById(R.id.button_delete);
             rule = itemView.findViewById(R.id.row_rule);
         }
 
-        void bind(final PantryItem item, boolean isLast) {
+        void bind(final PantryItem item, int position, boolean isLast) {
+            // The action block below the list already closes the group, so a
+            // rule under the final row would draw a second hairline beside it.
             rule.setVisibility(isLast ? View.GONE : View.VISIBLE);
+
+            // Zero padded, so the column keeps one width the whole way down and
+            // every name starts at the same place.
+            indexView.setText(String.format(Locale.UK, "%02d", position + 1));
             nameView.setText(item.getName());
-            amountView.setText(item.getDisplayAmount());
+            amountView.setText(item.getDisplayQuantity());
+            unitView.setText(item.getUnit());
             bindExpiry(item);
 
             View.OnClickListener edit = new View.OnClickListener() {
@@ -129,51 +187,29 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         }
 
         private void bindExpiry(PantryItem item) {
-            String expiry = item.getExpiryDate();
-            if (expiry == null || expiry.isEmpty()) {
-                expiryView.setVisibility(View.GONE);
-                return;
-            }
-
             // The API sends ISO dates. Showing "2026-10-02" to a user is
             // needlessly technical, so it is reformatted for display.
-            Date date = parseIso(expiry);
+            Date date = parseIso(item.getExpiryDate());
             if (date == null) {
-                expiryView.setVisibility(View.GONE);
+                expiryGroup.setVisibility(View.GONE);
                 return;
             }
 
-            expiryView.setVisibility(View.VISIBLE);
-            long daysLeft = daysUntil(date);
+            expiryGroup.setVisibility(View.VISIBLE);
             Context context = expiryView.getContext();
+            boolean warn = prefs.isExpiryAlertsEnabled() && isExpiringSoon(item);
 
-            if (prefs.isExpiryAlertsEnabled() && daysLeft <= Prefs.EXPIRY_WARNING_DAYS) {
-                expiryView.setText(context.getString(R.string.label_expiring_soon,
-                        FRIENDLY.format(date)));
-                expiryView.setTextColor(ContextCompat.getColor(context, R.color.rust));
-            } else {
-                expiryView.setText(context.getString(R.string.label_expires,
-                        FRIENDLY.format(date)));
-                expiryView.setTextColor(ContextCompat.getColor(context, R.color.ink_muted));
-            }
-        }
-
-        private Date parseIso(String value) {
-            try {
-                // The server may return a full timestamp; only the date matters.
-                return ISO.parse(value.length() > 10 ? value.substring(0, 10) : value);
-            } catch (ParseException exception) {
-                return null;
-            }
-        }
-
-        private long daysUntil(Date date) {
-            Calendar midnight = Calendar.getInstance();
-            midnight.set(Calendar.HOUR_OF_DAY, 0);
-            midnight.set(Calendar.MINUTE, 0);
-            midnight.set(Calendar.SECOND, 0);
-            midnight.set(Calendar.MILLISECOND, 0);
-            return TimeUnit.MILLISECONDS.toDays(date.getTime() - midnight.getTimeInMillis());
+            // A stamp carries the warning and the date itself stays plain.
+            // Colouring the whole line made a date that is merely known read as
+            // a problem, which left nothing louder to say when one really was.
+            // With the stamp showing, "Expires" in front of the date is the
+            // same thing said twice, and the extra words wrapped the line.
+            expiryChip.setVisibility(warn ? View.VISIBLE : View.GONE);
+            expiryView.setText(warn
+                    ? FRIENDLY.format(date)
+                    : context.getString(R.string.label_expires, FRIENDLY.format(date)));
+            expiryView.setTextColor(ContextCompat.getColor(context,
+                    warn ? R.color.chilli : R.color.ink_muted));
         }
     }
 }

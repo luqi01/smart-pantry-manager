@@ -1,36 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  The list runs from the masthead down to a fixed action block at the foot of
+  the screen.
+
+  Previously the add button floated in the bottom corner, which left the lower
+  third of the screen empty on a short pantry and made the layout look
+  unfinished. Anchoring the action to the bottom edge and putting the recipe
+  prompt above it turns that space into the part of the screen that tells the
+  user what to do next.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paper">
-
-    <TextView
-        android:id="@+id/label_count"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/gutter"
-        android:paddingTop="@dimen/space_md"
-        android:paddingEnd="@dimen/gutter"
-        android:paddingBottom="@dimen/space_xs"
-        android:text="@string/stamp_in_the_house"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/Text.Stamp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_pantry"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingBottom="96dp"
+        android:paddingTop="@dimen/space_xs"
+        android:paddingBottom="@dimen/space_md"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/panel_actions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/label_count" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- An empty state that says what to do next, not just that there is
          nothing here. -->
@@ -38,11 +36,11 @@
         android:id="@+id/layout_empty"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_2xl"
+        android:layout_marginStart="@dimen/gutter"
         android:layout_marginEnd="@dimen/space_2xl"
         android:orientation="vertical"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/panel_actions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -50,8 +48,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/stamp_empty"
+            style="@style/Text.Stamp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xs"
             android:text="@string/empty_pantry_title"
-            style="@style/Text.Title" />
+            style="@style/Text.Screen" />
 
         <TextView
             android:layout_width="match_parent"
@@ -65,32 +70,77 @@
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminateTint="@color/paprika"
+        android:indeterminateTint="@color/tomato"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/fab_add"
-        android:layout_width="wrap_content"
-        android:layout_height="52dp"
-        android:layout_marginEnd="@dimen/gutter"
-        android:layout_marginBottom="@dimen/space_lg"
-        android:contentDescription="@string/action_add_ingredient"
-        android:fontFamily="@font/display"
-        android:letterSpacing="0.02"
-        android:paddingStart="@dimen/space_lg"
-        android:paddingEnd="@dimen/space_lg"
-        android:text="@string/action_add_ingredient"
-        android:textAllCaps="false"
-        android:textSize="15sp"
-        app:backgroundTint="@color/paprika"
-        app:cornerRadius="@dimen/radius_md"
-        app:icon="@drawable/ic_add"
-        app:iconTint="@color/white"
+    <LinearLayout
+        android:id="@+id/panel_actions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!--
+          A standing prompt rather than a notification: the whole point of the
+          pantry is what it lets you cook, so the count belongs on this screen
+          and tapping it goes straight there.
+        -->
+        <LinearLayout
+            android:id="@+id/strip_ready"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grass_wash"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/gutter"
+            android:paddingTop="@dimen/space_sm"
+            android:paddingEnd="@dimen/gutter"
+            android:paddingBottom="@dimen/space_sm"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/text_ready_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/grass"
+                tools:text="2 recipes ready from your shelves"
+                style="@style/Text.Item" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_sm"
+                android:text="@string/action_view"
+                android:textColor="@color/grass"
+                style="@style/Text.Stamp" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fab_add"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:contentDescription="@string/action_add_ingredient"
+            android:fontFamily="@font/display"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:letterSpacing="0.01"
+            android:text="@string/action_add_ingredient"
+            android:textAllCaps="false"
+            android:textSize="17sp"
+            app:backgroundTint="@color/tomato"
+            app:cornerRadius="0dp"
+            app:icon="@drawable/ic_add"
+            app:iconGravity="textStart"
+            app:iconTint="@color/on_accent" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
