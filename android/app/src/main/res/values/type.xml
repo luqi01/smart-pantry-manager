@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Five steps, roughly a 1.25 ratio apart. Fewer sizes with more contrast between
+  them reads as a clearer hierarchy than eight sizes a hair apart.
+
+  Display face is reserved for names and screen titles. Everything a user reads
+  in quantity is set in the body face.
+-->
+<resources>
+    <style name="Text" parent="">
+        <item name="android:fontFamily">@font/body</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="Text.Screen">
+        <item name="android:fontFamily">@font/display</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.02</item>
+    </style>
+
+    <style name="Text.Title">
+        <item name="android:fontFamily">@font/display</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.015</item>
+    </style>
+
+    <style name="Text.Item">
+        <item name="android:fontFamily">@font/display</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+
+    <style name="Text.Body">
+        <item name="android:textSize">15sp</item>
+        <item name="android:lineSpacingMultiplier">1.35</item>
+        <item name="android:textColor">@color/ink_muted</item>
+    </style>
+
+    <style name="Text.Meta">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/ink_muted</item>
+    </style>
+
+    <!-- Short all-caps labels only. Never body copy. -->
+    <style name="Text.Stamp">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.14</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/ink_faint</item>
+    </style>
+
+    <style name="Text.Amount">
+        <item name="android:fontFamily">@font/display</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/paprika</item>
+    </style>
+
+    <style name="NavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/paprika_wash</item>
+        <item name="android:width">58dp</item>
+        <item name="android:height">30dp</item>
+        <item name="marginHorizontal">@dimen/space_xs</item>
+    </style>
+</resources>

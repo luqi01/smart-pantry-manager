@@ -1,42 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Host layout for the three main screens. The fragment container fills the space
-  above the bottom navigation bar, which is the working navigation element the
-  brief requires. Constraints rather than nested weights keep the hierarchy flat,
-  which is what the module guide recommends for layout performance.
+  The title sits on the paper rather than in a coloured bar. A filled toolbar
+  would put a heavy band across the top of every screen and fight the content
+  for attention; a hairline under the title does the same separating job quietly.
 -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_50">
+    android:background="@color/paper">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/green_700"
+        android:layout_height="wrap_content"
+        android:background="@color/paper"
+        android:paddingStart="@dimen/space_xs"
+        android:paddingTop="@dimen/space_xs"
+        android:paddingBottom="@dimen/space_2xs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/app_name"
-        app:titleTextColor="@color/white" />
+        app:titleCentered="false"
+        app:titleTextAppearance="@style/Text.Screen"
+        app:titleTextColor="@color/ink" />
+
+    <View
+        android:id="@+id/toolbar_rule"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/rule_thin"
+        android:background="@color/rule"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintBottom_toTopOf="@id/nav_rule"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_rule" />
+
+    <View
+        android:id="@+id/nav_rule"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/rule_thin"
+        android:background="@color/rule"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/paper"
+        app:elevation="0dp"
+        app:itemActiveIndicatorStyle="@style/NavIndicator"
+        app:itemIconTint="@color/nav_item"
+        app:itemTextColor="@color/nav_item"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

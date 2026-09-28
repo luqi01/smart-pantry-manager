@@ -120,7 +120,7 @@ public class SettingsFragment extends Fragment {
         save();
         status.setVisibility(View.VISIBLE);
         status.setText("Checking " + prefs.getApiBaseUrl() + " ...");
-        status.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey_600));
+        status.setTextColor(ContextCompat.getColor(requireContext(), R.color.ink_muted));
 
         new RecipeRepository(requireContext()).checkConnection(new ApiClient.Callback<JsonObject>() {
             @Override
@@ -131,7 +131,7 @@ public class SettingsFragment extends Fragment {
                 int recipes = result != null && result.has("recipes")
                         ? result.get("recipes").getAsInt() : 0;
                 status.setText(getString(R.string.settings_connection_ok, recipes));
-                status.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_700));
+                status.setTextColor(ContextCompat.getColor(requireContext(), R.color.olive));
             }
 
             @Override
@@ -140,7 +140,7 @@ public class SettingsFragment extends Fragment {
                     return;
                 }
                 status.setText(message);
-                status.setTextColor(ContextCompat.getColor(requireContext(), R.color.red_700));
+                status.setTextColor(ContextCompat.getColor(requireContext(), R.color.rust));
             }
         });
     }

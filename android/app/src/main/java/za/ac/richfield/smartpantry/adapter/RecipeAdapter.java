@@ -55,7 +55,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-        holder.bind(results.get(position));
+        // The divider below the list already closes the group, so a rule under
+        // the final row would draw a second hairline beside it.
+        holder.bind(results.get(position), position == results.size() - 1);
     }
 
     @Override
@@ -69,6 +71,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         private final TextView descriptionView;
         private final TextView metaView;
         private final TextView missingView;
+        private final View rule;
 
         RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,9 +79,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             descriptionView = itemView.findViewById(R.id.text_recipe_description);
             metaView = itemView.findViewById(R.id.text_recipe_meta);
             missingView = itemView.findViewById(R.id.text_recipe_missing);
+            rule = itemView.findViewById(R.id.row_rule);
         }
 
-        void bind(MatchResult result) {
+        void bind(MatchResult result, boolean isLast) {
+            rule.setVisibility(isLast ? View.GONE : View.VISIBLE);
             final Recipe recipe = result.getRecipe();
             nameView.setText(recipe.getName());
             descriptionView.setText(recipe.getDescription());

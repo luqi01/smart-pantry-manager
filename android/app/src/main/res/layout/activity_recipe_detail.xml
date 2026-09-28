@@ -4,21 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_50">
+    android:background="@color/paper">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/green_700"
+        android:layout_height="wrap_content"
+        android:background="@color/paper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/white" />
+        app:navigationIconTint="@color/ink"
+        app:title=""
+        app:titleTextColor="@color/ink" />
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,69 +31,70 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_medium">
+            android:paddingStart="@dimen/gutter"
+            android:paddingEnd="@dimen/gutter"
+            android:paddingBottom="@dimen/space_2xl">
 
+            <TextView
+                android:id="@+id/text_meta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/paprika"
+                style="@style/Text.Stamp" />
+
+            <!-- The name is the largest thing on the screen by a clear margin,
+                 so the page has an obvious entry point. -->
             <TextView
                 android:id="@+id/text_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/grey_900"
-                android:textSize="22sp"
+                android:layout_marginTop="@dimen/space_xs"
+                android:fontFamily="@font/display"
+                android:letterSpacing="-0.025"
+                android:lineSpacingMultiplier="1.05"
+                android:textColor="@color/ink"
+                android:textSize="32sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/text_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:textColor="@color/grey_600"
-                android:textSize="15sp" />
+                android:layout_marginTop="@dimen/space_sm"
+                style="@style/Text.Body" />
 
-            <TextView
-                android:id="@+id/text_meta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:background="@drawable/bg_status_chip"
-                android:paddingStart="12dp"
-                android:paddingTop="6dp"
-                android:paddingEnd="12dp"
-                android:paddingBottom="6dp"
-                android:textColor="@color/green_700"
-                android:textSize="13sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rule_thin"
+                android:layout_marginTop="@dimen/space_lg"
+                android:background="@color/rule" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/space_lg"
                 android:text="@string/label_ingredients"
-                android:textColor="@color/green_700"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/Text.Stamp" />
 
-            <!-- Rows are added in code so each can be ticked against the pantry. -->
             <LinearLayout
                 android:id="@+id/container_ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/space_xs"
                 android:orientation="vertical" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/space_xl"
                 android:text="@string/label_method"
-                android:textColor="@color/green_700"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/Text.Stamp" />
 
             <LinearLayout
                 android:id="@+id/container_steps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:layout_marginBottom="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/space_sm"
                 android:orientation="vertical" />
 
         </LinearLayout>

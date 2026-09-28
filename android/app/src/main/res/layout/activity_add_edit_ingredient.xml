@@ -4,21 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_50">
+    android:background="@color/paper">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/green_700"
+        android:layout_height="wrap_content"
+        android:background="@color/paper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/white" />
+        app:navigationIconTint="@color/ink"
+        app:title=""
+        app:titleTextColor="@color/ink" />
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,19 +31,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_medium">
+            android:paddingStart="@dimen/gutter"
+            android:paddingEnd="@dimen/gutter"
+            android:paddingBottom="@dimen/space_2xl">
+
+            <TextView
+                android:id="@+id/text_form_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/display"
+                android:letterSpacing="-0.02"
+                android:textColor="@color/ink"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_2xs"
+                android:layout_marginBottom="@dimen/space_lg"
+                android:text="@string/form_subtitle"
+                style="@style/Text.Body" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_name"
+                app:boxCornerRadiusBottomEnd="@dimen/radius_sm"
+                app:boxCornerRadiusBottomStart="@dimen/radius_sm"
+                app:boxCornerRadiusTopEnd="@dimen/radius_sm"
+                app:boxCornerRadiusTopStart="@dimen/radius_sm"
+                app:boxStrokeColor="@color/paprika"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/body"
                     android:inputType="textCapWords"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -48,62 +77,94 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/space_sm"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/layout_quantity"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="@string/hint_quantity"
+                    android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/space_2xs"
+                    android:text="@string/hint_quantity"
+                    style="@style/Text.Stamp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxCornerRadiusBottomEnd="@dimen/radius_sm"
+                    app:boxCornerRadiusBottomStart="@dimen/radius_sm"
+                    app:boxCornerRadiusTopEnd="@dimen/radius_sm"
+                    app:boxCornerRadiusTopStart="@dimen/radius_sm"
+                    app:boxStrokeColor="@color/paprika"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/input_quantity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/body"
                         android:inputType="numberDecimal"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_small"
+                    android:layout_marginStart="@dimen/space_sm"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/space_2xs"
                         android:text="@string/hint_unit"
-                        android:textColor="@color/grey_600"
-                        android:textSize="12sp" />
+                        style="@style/Text.Stamp" />
 
                     <Spinner
                         android:id="@+id/spinner_unit"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="48dp" />
+                        android:layout_height="52dp"
+                        android:background="@drawable/bg_amount"
+                        android:paddingStart="@dimen/space_sm"
+                        android:paddingEnd="@dimen/space_xs" />
                 </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:layout_marginBottom="@dimen/space_2xs"
+                android:text="@string/stamp_expiry"
+                style="@style/Text.Stamp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_expiry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
                 android:hint="@string/hint_expiry"
+                app:boxCornerRadiusBottomEnd="@dimen/radius_sm"
+                app:boxCornerRadiusBottomStart="@dimen/radius_sm"
+                app:boxCornerRadiusTopEnd="@dimen/radius_sm"
+                app:boxCornerRadiusTopStart="@dimen/radius_sm"
+                app:boxStrokeColor="@color/paprika"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-                <!-- Not directly editable: a DatePickerDialog cannot produce an
-                     invalid date, where free text can. -->
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_expiry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
+                    android:fontFamily="@font/body"
                     android:inputType="none"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -112,27 +173,41 @@
                 android:id="@+id/button_clear_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_2xs"
+                android:paddingStart="0dp"
                 android:text="@string/action_clear_date"
+                android:textAllCaps="false"
+                android:textColor="@color/ink_muted"
                 android:textSize="13sp"
                 style="@style/Widget.Material3.Button.TextButton" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_save"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:backgroundTint="@color/green_700"
-                android:text="@string/action_save" />
+                android:layout_height="54dp"
+                android:layout_marginTop="@dimen/space_xl"
+                android:fontFamily="@font/display"
+                android:text="@string/action_save"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:backgroundTint="@color/paprika"
+                app:cornerRadius="@dimen/radius_md" />
 
+            <!-- Secondary, and styled as secondary. Making both buttons solid
+                 would leave the user with no signal about which is the usual
+                 action. -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_delete"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_height="52dp"
+                android:layout_marginTop="@dimen/space_xs"
                 android:text="@string/action_delete"
-                android:textColor="@color/red_700"
+                android:textAllCaps="false"
+                android:textColor="@color/rust"
+                android:textSize="15sp"
                 android:visibility="gone"
-                app:strokeColor="@color/red_700"
+                app:cornerRadius="@dimen/radius_md"
+                app:strokeColor="@color/rule"
                 style="@style/Widget.Material3.Button.OutlinedButton" />
 
         </LinearLayout>

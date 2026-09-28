@@ -74,10 +74,15 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(editing == null
-                    ? R.string.title_add_ingredient : R.string.title_edit_ingredient);
+            // The page carries its own heading; the bar repeating it is noise.
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
+
+        // The heading sits in the page rather than the bar, so it can carry the
+        // display face at a size a toolbar title could not.
+        ((android.widget.TextView) findViewById(R.id.text_form_title)).setText(
+                editing == null ? R.string.title_add_ingredient : R.string.title_edit_ingredient);
 
         bindViews();
         populateUnits();

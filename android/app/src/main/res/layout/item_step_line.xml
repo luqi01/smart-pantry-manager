@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A leading numeral instead of a bullet. It gives the method column a spine
+     and makes it obvious the steps are ordered. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/space_xs"
+    android:paddingBottom="@dimen/space_sm">
+
+    <TextView
+        android:id="@+id/text_number"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:background="@drawable/bg_step_number"
+        android:fontFamily="@font/display"
+        android:gravity="center"
+        android:textColor="@color/paprika"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text_step"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_sm"
+        android:layout_weight="1"
+        android:textColor="@color/ink"
+        android:textSize="15sp"
+        android:lineSpacingMultiplier="1.4" />
+</LinearLayout>

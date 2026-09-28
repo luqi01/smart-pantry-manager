@@ -3,75 +3,94 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/paper">
+
+    <TextView
+        android:id="@+id/label_count"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/gutter"
+        android:paddingTop="@dimen/space_md"
+        android:paddingEnd="@dimen/gutter"
+        android:paddingBottom="@dimen/space_xs"
+        android:text="@string/stamp_in_the_house"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Text.Stamp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_pantry"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingStart="@dimen/spacing_medium"
-        android:paddingEnd="@dimen/spacing_medium"
-        android:paddingTop="@dimen/spacing_small"
-        android:paddingBottom="88dp"
+        android:paddingBottom="96dp"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/label_count" />
 
-    <!-- Shown instead of a blank screen when the pantry has nothing in it. An
-         empty list with no explanation reads as a broken screen. -->
+    <!-- An empty state that says what to do next, not just that there is
+         nothing here. -->
     <LinearLayout
         android:id="@+id/layout_empty"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_marginStart="@dimen/space_2xl"
+        android:layout_marginEnd="@dimen/space_2xl"
         android:orientation="vertical"
-        android:paddingStart="@dimen/spacing_large"
-        android:paddingEnd="@dimen/spacing_large"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:alpha="0.6"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_empty_basket" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:gravity="center"
+            android:text="@string/empty_pantry_title"
+            style="@style/Text.Title" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_sm"
             android:text="@string/empty_pantry"
-            android:textColor="@color/grey_600"
-            android:textSize="16sp" />
+            style="@style/Text.Body" />
     </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminateTint="@color/paprika"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/fab_add"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_medium"
+        android:layout_height="52dp"
+        android:layout_marginEnd="@dimen/gutter"
+        android:layout_marginBottom="@dimen/space_lg"
         android:contentDescription="@string/action_add_ingredient"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="@color/green_700"
+        android:fontFamily="@font/display"
+        android:letterSpacing="0.02"
+        android:paddingStart="@dimen/space_lg"
+        android:paddingEnd="@dimen/space_lg"
+        android:text="@string/action_add_ingredient"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:backgroundTint="@color/paprika"
+        app:cornerRadius="@dimen/radius_md"
+        app:icon="@drawable/ic_add"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/white" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

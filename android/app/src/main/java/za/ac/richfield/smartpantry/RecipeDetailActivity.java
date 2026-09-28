@@ -57,7 +57,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(R.string.title_recipe);
+            // The page carries its own heading; the bar repeating it is noise.
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
@@ -76,15 +77,16 @@ public class RecipeDetailActivity extends AppCompatActivity {
     private void renderSteps() {
         LinearLayout container = findViewById(R.id.container_steps);
         container.removeAllViews();
+        LayoutInflater inflater = LayoutInflater.from(this);
         List<String> steps = recipe.getSteps();
-        for (String step : steps) {
-            TextView view = new TextView(this);
-            view.setText(step);
-            view.setTextSize(15);
-            view.setTextColor(ContextCompat.getColor(this, R.color.grey_900));
-            view.setPadding(0, 0, 0, 20);
-            view.setLineSpacing(4f, 1f);
-            container.addView(view);
+        for (int i = 0; i < steps.size(); i++) {
+            View row = inflater.inflate(R.layout.item_step_line, container, false);
+            // The seed stores steps already numbered; strip it so the numeral
+            // is not printed twice once the layout supplies one.
+            String text = steps.get(i).replaceFirst("^\\d+[.)]\\s*", "");
+            ((TextView) row.findViewById(R.id.text_number)).setText(String.valueOf(i + 1));
+            ((TextView) row.findViewById(R.id.text_step)).setText(text);
+            container.addView(row);
         }
     }
 

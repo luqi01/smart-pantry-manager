@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -93,7 +93,7 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         recycler.setAdapter(adapter);
 
-        FloatingActionButton add = view.findViewById(R.id.fab_add);
+        MaterialButton add = view.findViewById(R.id.fab_add);
         add.setOnClickListener(v -> openEditor(null));
     }
 

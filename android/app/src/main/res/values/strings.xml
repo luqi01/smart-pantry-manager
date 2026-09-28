@@ -33,7 +33,7 @@
     <string name="error_quantity_positive">Quantity must be greater than zero.</string>
     <string name="error_quantity_large">That quantity looks too large. Check the unit.</string>
 
-    <string name="empty_pantry">Your pantry is empty.\nTap the button below to add what you have at home.</string>
+    <string name="empty_pantry">Add what you have at home and the recipes you can cook will appear under Recipes.</string>
     <string name="empty_suggestions">No recipes match your pantry yet - add more ingredients.</string>
     <string name="empty_almost">Nothing is one ingredient away just yet.</string>
 
@@ -66,4 +66,15 @@
     <string name="toast_deleted">%1$s deleted.</string>
 
     <string name="cd_status">Recipe status</string>
+
+    <!-- Short all-caps section labels -->
+    <string name="stamp_in_the_house">In the house</string>
+    <string name="stamp_expiry">Use by</string>
+    <string name="stamp_connection">Connection</string>
+    <string name="stamp_display">Display</string>
+    <string name="stamp_defaults">Defaults</string>
+
+    <string name="empty_pantry_title">Nothing in the pantry</string>
+    <string name="heading_suggested_sub">Everything these need is already in the house.</string>
+    <string name="form_subtitle">What you have, and how much of it.</string>
 </resources>

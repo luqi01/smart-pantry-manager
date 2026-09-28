@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingTop="6dp"
-    android:paddingBottom="6dp">
+    android:paddingTop="@dimen/space_sm"
+    android:paddingBottom="@dimen/space_sm">
 
     <ImageView
         android:id="@+id/icon_status"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:contentDescription="@string/cd_status"
-        android:src="@drawable/ic_check" />
+        android:src="@drawable/ic_check"
+        app:tint="@color/olive" />
 
     <TextView
         android:id="@+id/text_line"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="@dimen/space_sm"
         android:layout_weight="1"
-        android:textColor="@color/grey_900"
+        android:textColor="@color/ink"
         android:textSize="15sp" />
 </LinearLayout>

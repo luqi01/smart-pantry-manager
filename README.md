@@ -76,8 +76,9 @@ as Java than as a query.
 
 ## Database choice, and why
 
-**PostgreSQL**, hosted on Supabase, reached through a REST API that ships with
-this project.
+**PostgreSQL 16**, reached through a REST API that ships with this project.
+The database runs locally during development and deploys to a managed Supabase
+instance by changing one connection string.
 
 The brief allowed SQLite, Firebase or PostgreSQL. PostgreSQL was chosen for three
 reasons:
@@ -103,8 +104,8 @@ the right trade; for a purely offline app it would not be.
 ## Architecture
 
 ```
-Android app  ──HTTP/JSON──>  Flask REST API  ──psycopg2──>  Supabase PostgreSQL
-   (Java)                       (Python)                       (managed)
+Android app  ──HTTP/JSON──>  Flask REST API  ──psycopg2──>  PostgreSQL 16
+   (Java)                       (Python)                    (local / Supabase)
 ```
 
 The app never speaks SQL. It calls the API, which owns every query.

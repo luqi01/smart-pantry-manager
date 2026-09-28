@@ -1,59 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<!--
+  One row type, but the adapter tints the rule and shows the missing chip only
+  for Almost There entries, so the two lists do not read as the same component
+  repeated. No card: the heading above already groups these.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/spacing_small"
+    android:background="?attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
-    app:cardCornerRadius="@dimen/card_radius"
-    app:cardElevation="1dp">
+    android:orientation="vertical"
+    android:paddingStart="@dimen/gutter"
+    android:paddingEnd="@dimen/gutter">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/text_recipe_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/spacing_medium">
+        android:layout_marginTop="@dimen/space_md"
+        tools:text="Cheese Omelette"
+        style="@style/Text.Title" />
 
-        <TextView
-            android:id="@+id/text_recipe_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/grey_900"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/text_recipe_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_2xs"
+        tools:text="A fast three-egg omelette folded around melted cheese."
+        style="@style/Text.Body" />
 
-        <TextView
-            android:id="@+id/text_recipe_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textColor="@color/grey_600"
-            android:textSize="14sp" />
+    <TextView
+        android:id="@+id/text_recipe_meta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_xs"
+        tools:text="Serves 1 · 10 min · 4 ingredients"
+        style="@style/Text.Stamp" />
 
-        <TextView
-            android:id="@+id/text_recipe_meta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:textColor="@color/green_700"
-            android:textSize="13sp" />
+    <TextView
+        android:id="@+id/text_recipe_missing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_xs"
+        android:background="@drawable/bg_chip_amber"
+        android:paddingStart="@dimen/space_xs"
+        android:paddingTop="5dp"
+        android:paddingEnd="@dimen/space_xs"
+        android:paddingBottom="5dp"
+        android:textColor="@color/mustard"
+        android:textSize="13sp"
+        android:visibility="gone"
+        tools:text="Missing: cheese" />
 
-        <TextView
-            android:id="@+id/text_recipe_missing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:background="@drawable/bg_chip_amber"
-            android:paddingStart="10dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="6dp"
-            android:textColor="@color/amber_700"
-            android:textSize="13sp"
-            android:visibility="gone" />
-
-    </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+    <View
+        android:id="@+id/row_rule"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/rule_thin"
+        android:layout_marginTop="@dimen/space_md"
+        android:background="@color/rule" />
+</LinearLayout>

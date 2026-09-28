@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Larder palette. Warm throughout: no pure black, no pure white, and the
+  neutrals are tinted toward the paprika hue so the surfaces and the accent
+  feel related rather than merely adjacent.
+
+  Weighting is roughly 60 / 30 / 10 - paper and ink carry the screen, and
+  paprika is rare enough to still mean something when it appears.
+-->
 <resources>
-    <color name="green_700">#2E7D32</color>
-    <color name="green_500">#4CAF50</color>
-    <color name="green_100">#E8F5E9</color>
-    <color name="amber_700">#8D6E00</color>
-    <color name="amber_100">#FFF8E1</color>
-    <color name="red_700">#C62828</color>
-    <color name="grey_900">#1B1B1B</color>
-    <color name="grey_600">#5F6368</color>
-    <color name="grey_200">#E4E6E8</color>
-    <color name="grey_50">#FAFAFA</color>
+    <!-- surfaces -->
+    <color name="paper">#F6F1E8</color>          <!-- kraft, the app background -->
+    <color name="paper_raised">#FCF9F3</color>   <!-- a shade lighter, for rows -->
+    <color name="paper_sunken">#EDE5D7</color>   <!-- pressed and inset states -->
+
+    <!-- ink -->
+    <color name="ink">#231C16</color>            <!-- warm near-black, never #000 -->
+    <color name="ink_muted">#6E6157</color>
+    <color name="ink_faint">#A2958A</color>
+    <color name="rule">#DFD5C4</color>           <!-- hairline dividers -->
+
+    <!-- accents -->
+    <color name="paprika">#A83B12</color>        <!-- primary: labels, actions -->
+    <color name="paprika_wash">#F2DFD4</color>
+    <color name="olive">#4F5D2B</color>          <!-- affirmative: can cook now -->
+    <color name="olive_wash">#E4E7D2</color>
+    <color name="mustard">#8A6410</color>        <!-- almost there -->
+    <color name="mustard_wash">#F3E8CC</color>
+    <color name="rust">#8F2D1B</color>           <!-- destructive, expiring -->
+
     <color name="white">#FFFFFF</color>
 </resources>

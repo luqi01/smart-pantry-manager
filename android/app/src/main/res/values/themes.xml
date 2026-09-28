@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.SmartPantry" parent="Theme.Material3.Light.NoActionBar">
-        <item name="colorPrimary">@color/green_700</item>
+        <item name="colorPrimary">@color/paprika</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorPrimaryContainer">@color/green_100</item>
-        <item name="colorOnPrimaryContainer">@color/green_700</item>
-        <item name="colorSecondary">@color/green_500</item>
-        <!-- The bottom navigation active indicator is drawn from
-             colorSecondaryContainer, which defaults to lavender. -->
-        <item name="colorSecondaryContainer">@color/green_100</item>
-        <item name="colorOnSecondaryContainer">@color/green_700</item>
-        <item name="android:colorBackground">@color/grey_50</item>
-        <item name="colorSurface">@color/white</item>
-        <item name="android:statusBarColor" tools:targetApi="21">@color/green_700</item>
+        <item name="colorPrimaryContainer">@color/paprika_wash</item>
+        <item name="colorOnPrimaryContainer">@color/paprika</item>
+        <item name="colorSecondary">@color/olive</item>
+        <item name="colorSecondaryContainer">@color/olive_wash</item>
+        <item name="colorOnSecondaryContainer">@color/olive</item>
+        <item name="colorError">@color/rust</item>
+        <item name="android:colorBackground">@color/paper</item>
+        <item name="colorSurface">@color/paper_raised</item>
+        <item name="colorOnSurface">@color/ink</item>
+        <item name="colorOutline">@color/rule</item>
+        <item name="android:statusBarColor" tools:targetApi="21">@color/paper</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:textViewStyle">@style/AppTextView</item>
+    </style>
+
+    <style name="AppTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/body</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 </resources>

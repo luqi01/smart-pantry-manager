@@ -76,7 +76,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
 
     @Override
     public void onBindViewHolder(@NonNull PantryViewHolder holder, int position) {
-        holder.bind(items.get(position));
+        holder.bind(items.get(position), position == items.size() - 1);
     }
 
     @Override
@@ -91,6 +91,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         private final TextView expiryView;
         private final ImageButton editButton;
         private final ImageButton deleteButton;
+        private final View rule;
 
         PantryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,9 +100,11 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
             expiryView = itemView.findViewById(R.id.text_expiry);
             editButton = itemView.findViewById(R.id.button_edit);
             deleteButton = itemView.findViewById(R.id.button_delete);
+            rule = itemView.findViewById(R.id.row_rule);
         }
 
-        void bind(final PantryItem item) {
+        void bind(final PantryItem item, boolean isLast) {
+            rule.setVisibility(isLast ? View.GONE : View.VISIBLE);
             nameView.setText(item.getName());
             amountView.setText(item.getDisplayAmount());
             bindExpiry(item);
@@ -147,11 +150,11 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
             if (prefs.isExpiryAlertsEnabled() && daysLeft <= Prefs.EXPIRY_WARNING_DAYS) {
                 expiryView.setText(context.getString(R.string.label_expiring_soon,
                         FRIENDLY.format(date)));
-                expiryView.setTextColor(ContextCompat.getColor(context, R.color.red_700));
+                expiryView.setTextColor(ContextCompat.getColor(context, R.color.rust));
             } else {
                 expiryView.setText(context.getString(R.string.label_expires,
                         FRIENDLY.format(date)));
-                expiryView.setTextColor(ContextCompat.getColor(context, R.color.grey_600));
+                expiryView.setTextColor(ContextCompat.getColor(context, R.color.ink_muted));
             }
         }
 
