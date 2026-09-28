@@ -1,0 +1,8 @@
+# gradlew is a shell script: CRLF endings make it unrunnable on macOS and Linux,
+# so pin it to LF regardless of the platform it is checked out on.
+gradlew text eol=lf
+*.sh text eol=lf
+
+# Keep the wrapper jar and images byte-identical.
+*.jar binary
+*.png binary
