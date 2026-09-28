@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Bricolage Grotesque. Chosen for its slightly irregular, stamped proportions,
-     which suit a hand-labelled larder better than a neutral grotesque. -->
+<!--
+  Vollkorn, for names, screen titles and quantities.
+
+  A text serif rather than another grotesque. The previous pairing set a
+  "designy" grotesque over a neutral one, which is the default any type-picker
+  lands on and is why the screens read as generic however carefully they were
+  laid out. A recipe title belongs in a serif for the same reason it does in a
+  cookbook, and a serif over a grotesque is the pairing food editorial has used
+  for a century.
+
+  Vollkorn is German for wholemeal, which is a better reason to pick a font for
+  a pantry than most. It has ink in it: sturdy, slightly rough, and its figures
+  carry enough weight to head a column of quantities.
+-->
 <font-family xmlns:android="http://schemas.android.com/apk/res/android">
     <font
-        android:font="@font/bricolage_grotesque_semibold"
+        android:font="@font/vollkorn_semibold"
         android:fontStyle="normal"
         android:fontWeight="600" />
     <font
-        android:font="@font/bricolage_grotesque_bold"
+        android:font="@font/vollkorn_bold"
         android:fontStyle="normal"
         android:fontWeight="700" />
 </font-family>

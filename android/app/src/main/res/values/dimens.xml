@@ -19,6 +19,9 @@
     <dimen name="gutter">20dp</dimen>          <!-- screen side margin -->
     <dimen name="touch_min">48dp</dimen>
     <dimen name="rule_thin">1dp</dimen>
-    <dimen name="radius_sm">6dp</dimen>
-    <dimen name="radius_md">10dp</dimen>
+    <!-- Nearly square. A shelf ticket has a cut edge, not a rounded one, and
+         the soft 10dp radius was doing more than anything else to make the
+         screens look like a stock component library. -->
+    <dimen name="radius_sm">2dp</dimen>
+    <dimen name="radius_md">2dp</dimen>
 </resources>

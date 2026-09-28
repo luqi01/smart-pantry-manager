@@ -55,6 +55,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
 
     private static final SimpleDateFormat ISO = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
     private static final SimpleDateFormat FRIENDLY = new SimpleDateFormat("d MMM yyyy", Locale.UK);
+    private static final SimpleDateFormat SHORT = new SimpleDateFormat("d MMM", Locale.UK);
 
     private final List<PantryItem> items = new ArrayList<>();
     private final OnItemAction listener;
@@ -206,7 +207,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
             // same thing said twice, and the extra words wrapped the line.
             expiryChip.setVisibility(warn ? View.VISIBLE : View.GONE);
             expiryView.setText(warn
-                    ? FRIENDLY.format(date)
+                    ? SHORT.format(date)
                     : context.getString(R.string.label_expires, FRIENDLY.format(date)));
             expiryView.setTextColor(ContextCompat.getColor(context,
                     warn ? R.color.chilli : R.color.ink_muted));

@@ -13,7 +13,7 @@
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:background="@drawable/bg_step_number"
-        android:fontFamily="@font/display"
+        android:fontFamily="@font/body"
         android:gravity="center"
         android:textColor="@color/lime"
         android:textSize="13sp"

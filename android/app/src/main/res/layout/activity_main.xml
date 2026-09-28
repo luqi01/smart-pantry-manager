@@ -49,6 +49,8 @@
         app:elevation="0dp"
         app:itemActiveIndicatorStyle="@style/NavIndicator"
         app:itemIconTint="@color/nav_item"
+        app:itemTextAppearanceActive="@style/NavLabel"
+        app:itemTextAppearanceInactive="@style/NavLabel"
         app:itemTextColor="@color/nav_item"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"

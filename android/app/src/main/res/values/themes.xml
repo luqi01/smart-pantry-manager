@@ -23,6 +23,6 @@
 
     <style name="AppTextView" parent="Widget.AppCompat.TextView">
         <item name="android:fontFamily">@font/body</item>
-        <item name="android:includeFontPadding">false</item>
+        <item name="android:fontFeatureSettings">lnum</item>
     </style>
 </resources>
