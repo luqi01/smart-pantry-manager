@@ -22,6 +22,9 @@
         <item name="android:navigationBarColor" tools:targetApi="21">@color/paper</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
         <item name="android:textViewStyle">@style/AppTextView</item>
+        <item name="snackbarStyle">@style/Snackbar</item>
+        <item name="snackbarTextViewStyle">@style/SnackbarText</item>
+        <item name="snackbarButtonStyle">@style/SnackbarAction</item>
     </style>
 
     <style name="AppTextView" parent="Widget.AppCompat.TextView">

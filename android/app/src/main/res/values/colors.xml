@@ -50,6 +50,9 @@
     <!-- the red pen -->
     <color name="pen">#A6342C</color>            <!-- 6.1:1 on paper -->
     <color name="pen_faint">#F0DAD6</color>
+    <!-- Red reversed out of black ink. The pen colour itself is far too dark
+         to read on black; this is the same pen seen against a dark ground. -->
+    <color name="pen_reversed">#E8A49C</color>
 
     <color name="on_ink">#F7F4EA</color>         <!-- paper, reversed out of ink -->
 </resources>

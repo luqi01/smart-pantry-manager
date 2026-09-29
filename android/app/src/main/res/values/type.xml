@@ -128,4 +128,33 @@
     <style name="NavLabel.Active">
         <item name="android:textStyle">bold</item>
     </style>
+
+    <!--
+      A note stuck over the page.
+
+      Material's stock snackbar is a dark grey slab with a purple action, and
+      once undo appeared on two screens it was the loudest unstyled thing left.
+      It is black, like everything else the app inks in, with the action in the
+      red that undoing is written in - lightened, because the pen colour is far
+      too dark to read against black.
+    -->
+    <style name="Snackbar" parent="Widget.Material3.Snackbar">
+        <item name="backgroundTint">@color/ink</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Nav.Tab</item>
+    </style>
+
+    <style name="SnackbarText" parent="Widget.Material3.Snackbar.TextView">
+        <item name="android:fontFamily">@font/body</item>
+        <item name="android:textColor">@color/on_ink</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="SnackbarAction" parent="Widget.Material3.Button.TextButton.Snackbar">
+        <item name="android:fontFamily">@font/body</item>
+        <item name="android:textColor">@color/pen_reversed</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.12</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 </resources>
