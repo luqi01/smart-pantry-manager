@@ -201,7 +201,7 @@ looking for problems elsewhere.
 
 ## Running the tests
 
-Twenty-two JUnit tests run on the JVM, with no emulator and no database:
+Twenty-nine JUnit tests run on the JVM, with no emulator and no database:
 
 ```bash
 cd android
@@ -211,9 +211,11 @@ cd android
 Fifteen cover the strict-matching rule: the brief's own example (four
 ingredients out of five must not be suggested), exact-quantity boundaries,
 plural and synonym handling, unit conversion across dimensions, and the refusal
-to compare incomparable units. The remaining seven cover how a quantity is
-written on a line, where counting units take a plural and measuring units do
-not.
+to compare incomparable units. Seven cover what cooking a recipe takes off the
+pantry, including the two cases where it must do nothing: an ingredient it
+cannot find, and one it cannot honestly convert. The last seven cover how a
+quantity is written on a line, where counting units take a plural and measuring
+units do not.
 
 ## Project layout
 
