@@ -22,6 +22,8 @@
     <string name="action_clear_date">Clear date</string>
     <string name="action_add_ingredient">Add ingredient</string>
     <string name="action_view">See</string>
+    <string name="action_cooked">Cooked it</string>
+    <string name="action_undo">Undo</string>
 
     <!-- Validation messages. Each names the field and says what to do, because
          a bare "invalid input" gives the user nothing to act on. -->
@@ -58,12 +60,13 @@
     <string name="settings_saved">Settings saved.</string>
     <string name="settings_connection_ok">Connected. %1$d recipes available.</string>
 
-    <string name="confirm_delete_title">Delete %1$s?</string>
-    <string name="confirm_delete_message">This removes the ingredient from your pantry.</string>
 
     <string name="toast_added">%1$s added to your pantry.</string>
     <string name="toast_updated">%1$s updated.</string>
     <string name="toast_deleted">%1$s deleted.</string>
+    <string name="toast_cooked">%1$s cooked. What it used has come off the pantry.</string>
+    <string name="toast_cooked_nothing">Nothing to take off the pantry for %1$s.</string>
+    <string name="error_undo">That could not be undone. Pull to refresh.</string>
 
     <string name="cd_status">Recipe status</string>
 

@@ -30,7 +30,7 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_cooked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -124,12 +124,37 @@
         </LinearLayout>
     </ScrollView>
 
+    <!--
+      Only shown when the strict rule says every ingredient is held. A recipe
+      the user cannot cook cannot be marked as cooked, so the button's presence
+      is one more place the rule is visible rather than merely described.
+    -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_cooked"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:fontFamily="@font/body"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:letterSpacing="0.02"
+        android:text="@string/action_cooked"
+        android:textAllCaps="false"
+        android:textColor="@color/on_ink"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:backgroundTint="@color/ink"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <View
         android:layout_width="@dimen/rule_thin"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/margin_x"
         android:background="@color/margin_rule"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_cooked"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
