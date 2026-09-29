@@ -14,6 +14,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:paddingStart="@dimen/margin_x"
+        app:contentInsetStartWithNavigation="0dp"
         app:navigationIconTint="@color/ink"
         app:title="" />
 
@@ -68,22 +70,35 @@
                 android:paddingStart="@dimen/page_gutter"
                 android:paddingEnd="@dimen/page_gutter_end">
 
+            <!-- Every field is labelled the same way: a stamped label above the
+                 box. Three of the four were labelled that way already while the
+                 name floated its label inside the box and the expiry date
+                 carried both, which read as two forms spliced together. -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_2xs"
+                android:text="@string/stamp_name"
+                style="@style/Text.Stamp" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_name"
+                app:hintEnabled="false"
                 app:boxCornerRadiusBottomEnd="@dimen/radius_sm"
                 app:boxCornerRadiusBottomStart="@dimen/radius_sm"
                 app:boxCornerRadiusTopEnd="@dimen/radius_sm"
                 app:boxCornerRadiusTopStart="@dimen/radius_sm"
-                app:boxStrokeColor="@color/pen"
+                app:boxStrokeColor="@color/field_stroke"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dp"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_name"
                     android:fontFamily="@font/body"
                     android:inputType="textCapWords"
                     android:maxLines="1" />
@@ -117,13 +132,14 @@
                     app:boxCornerRadiusBottomStart="@dimen/radius_sm"
                     app:boxCornerRadiusTopEnd="@dimen/radius_sm"
                     app:boxCornerRadiusTopStart="@dimen/radius_sm"
-                    app:boxStrokeColor="@color/pen"
+                    app:boxStrokeColor="@color/field_stroke"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/input_quantity"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
                         android:fontFamily="@font/body"
                         android:inputType="numberDecimal"
                         android:maxLines="1" />
@@ -148,10 +164,9 @@
                         android:id="@+id/spinner_unit"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:layout_marginTop="4dp"
-                        android:background="@drawable/bg_amount"
+                        android:background="@drawable/bg_field"
                         android:paddingStart="@dimen/space_sm"
-                        android:paddingEnd="@dimen/space_xs" />
+                        android:paddingEnd="@dimen/space_xl" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -167,36 +182,41 @@
                 android:id="@+id/layout_expiry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_expiry"
+                app:hintEnabled="false"
                 app:boxCornerRadiusBottomEnd="@dimen/radius_sm"
                 app:boxCornerRadiusBottomStart="@dimen/radius_sm"
                 app:boxCornerRadiusTopEnd="@dimen/radius_sm"
                 app:boxCornerRadiusTopStart="@dimen/radius_sm"
-                app:boxStrokeColor="@color/pen"
+                app:boxStrokeColor="@color/field_stroke"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_expiry"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dp"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_expiry"
                     android:focusable="false"
                     android:fontFamily="@font/body"
                     android:inputType="none"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
+            <!-- A plain written link. A Material text button carries insets and
+                 a minimum width that pushed it out of line with the left edge of
+                 every field above it. -->
+            <TextView
                 android:id="@+id/button_clear_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_2xs"
-                android:insetLeft="0dp"
-                android:paddingStart="0dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/touch_min"
+                android:paddingEnd="@dimen/space_md"
                 android:text="@string/action_clear_date"
-                android:textAllCaps="false"
-                android:textColor="@color/ink_muted"
-                android:textSize="13sp"
-                style="@style/Widget.Material3.Button.TextButton" />
+                style="@style/Text.Stamp.Pen" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_save"

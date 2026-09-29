@@ -26,7 +26,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- The empty page says what to write on it, not that it is empty. -->
+    <!-- The empty page says what to write on it, not that it is empty. It is
+         written over the ruling rather than in place of it: the list stays
+         visible when empty precisely so the page is still a page. -->
     <LinearLayout
         android:id="@+id/layout_empty"
         android:layout_width="0dp"

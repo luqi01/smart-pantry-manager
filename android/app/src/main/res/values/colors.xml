@@ -1,34 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Paper, ink and a red pen. That is the whole palette.
+  Paper, black ink and a red pen. That is the whole palette.
 
   The app is a pantry book: a ruled page someone keeps a list on. A ruled page
   is printed in one faint colour and written on in one or two, so a third
   accent would be a decision nobody makes when actually keeping a list.
 
-  Ink is blue-black because that is what a pen holds, not black. The ruling is
-  the pale blue of a printed exercise book, and the margin rule is the faded red
-  that runs down one. Red is reserved for what a person would reach for a red
-  pen to mark: something about to go off, something missing, something to undo.
+  The ink is black. Black is what a list is written in and what a page is
+  printed in, and against warm paper it is the thing that makes the page read as
+  printed rather than as a screen tinted to look like one. Paper stays warm and
+  off-white so the contrast is ink-on-paper rather than the glare of #fff.
+
+  The ruling is the pale blue of a printed exercise book and the margin rule the
+  faded red that runs down one - both printed before anything was written, so
+  both are cooler and weaker than everything written on top of them. Red is kept
+  for what a person would reach for a red pen to mark: something about to go
+  off, something missing, something to undo.
+
+  The greys are warm, tinted towards the paper rather than away from it. They
+  were previously blue-grey, which on cream paper read as slightly dirty.
 -->
 <resources>
     <!-- the page -->
-    <color name="paper">#F8F5EC</color>          <!-- warm paper, never #fff -->
-    <color name="paper_edge">#EFEADC</color>     <!-- pressed states, inset fields -->
+    <color name="paper">#F7F4EA</color>          <!-- warm paper, never #fff -->
+    <color name="paper_edge">#EDE8DB</color>     <!-- pressed states, inset fields -->
 
     <!-- what is written on it -->
-    <color name="ink">#1E2A3A</color>            <!-- blue-black, never #000 -->
-    <color name="ink_muted">#5B6676</color>
-    <color name="ink_faint">#97A0AC</color>
+    <color name="ink">#000000</color>            <!-- black -->
+    <color name="ink_muted">#4A4741</color>      <!-- 8.5:1 on paper -->
+    <color name="ink_faint">#6E6B63</color>      <!-- 4.9:1 on paper: still AA -->
 
-    <!-- what is printed on it -->
-    <color name="rule">#C8D2DF</color>           <!-- the ruling -->
-    <color name="rule_faint">#DDE4EC</color>
-    <color name="margin_rule">#E0A9A4</color>    <!-- the red line down the page -->
+    <!-- what is printed on it, before anything is written -->
+    <color name="rule">#C3CDD9</color>           <!-- the ruling -->
+    <color name="rule_faint">#DCE3EB</color>
+    <color name="margin_rule">#D99A95</color>    <!-- the red line down the page -->
+
+    <!--
+      Dot leaders are drawn, not read, so they are the one thing allowed to sit
+      below text contrast. Keeping them on ink_faint would have dragged that
+      colour lighter than small type can afford.
+    -->
+    <color name="leader">#B8B4A8</color>
+
+    <!-- The outline of a field. Warm, like the greys, rather than the cool of
+         the printed ruling: a box drawn round somewhere to write is not part of
+         the ruling. -->
+    <color name="field_outline">#A9A69C</color>
 
     <!-- the red pen -->
-    <color name="pen">#A6342C</color>
+    <color name="pen">#A6342C</color>            <!-- 6.1:1 on paper -->
     <color name="pen_faint">#F0DAD6</color>
 
-    <color name="on_ink">#F8F5EC</color>         <!-- paper, reversed out of ink -->
+    <color name="on_ink">#F7F4EA</color>         <!-- paper, reversed out of ink -->
 </resources>

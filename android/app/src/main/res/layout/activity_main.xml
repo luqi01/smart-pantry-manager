@@ -4,7 +4,9 @@
 
   The margin rule is drawn here rather than by any one screen, because it runs
   the whole height of the page regardless of what is written on it, and it has
-  to cross the heading as well as the list.
+  to cross the heading as well as the list. It is declared first so that it is
+  drawn first: it is printed on the paper, so anything solid laid over the paper
+  - the black Add bar, the tab strip - covers it, as ink would.
 -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,6 +14,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paper">
+
+    <View
+        android:id="@+id/margin_rule"
+        android:layout_width="@dimen/rule_thin"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_x"
+        android:background="@color/margin_rule"
+        app:layout_constraintBottom_toTopOf="@id/nav_rule"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/page_header"
@@ -32,16 +44,6 @@
         app:layout_constraintTop_toBottomOf="@id/page_header" />
 
     <View
-        android:id="@+id/margin_rule"
-        android:layout_width="@dimen/rule_thin"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/margin_x"
-        android:background="@color/margin_rule"
-        app:layout_constraintBottom_toTopOf="@id/nav_rule"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
         android:id="@+id/nav_rule"
         android:layout_width="0dp"
         android:layout_height="@dimen/rule_thin"
@@ -57,10 +59,10 @@
         android:background="@color/paper"
         app:elevation="0dp"
         app:itemActiveIndicatorStyle="@style/NavIndicator"
-        app:itemIconTint="@color/nav_item"
-        app:itemTextAppearanceActive="@style/NavLabel"
+        app:itemIconTint="@color/nav_icon"
+        app:itemTextAppearanceActive="@style/NavLabel.Active"
         app:itemTextAppearanceInactive="@style/NavLabel"
-        app:itemTextColor="@color/nav_item"
+        app:itemTextColor="@color/nav_label"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

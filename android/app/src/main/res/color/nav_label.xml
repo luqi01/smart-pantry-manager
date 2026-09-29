@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The label sits below the block, on the paper, so it stays in ink. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/ink" android:state_checked="true" />
+    <item android:color="@color/ink_faint" />
+</selector>

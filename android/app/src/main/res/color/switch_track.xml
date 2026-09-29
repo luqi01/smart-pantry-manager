@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A setting that is on is a setting that is written down, so it is inked in
+     black. Red stays reserved for what needs attention; two large red pills sat
+     on the page shouting about nothing. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/ink" android:state_checked="true" />
+    <item android:color="@color/rule_faint" />
+</selector>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  One outline for every field on every form, so the unit picker stops being the
+  odd one out. Focus is marked in black rather than red: red means something
+  needs attention, and a field the user has simply tapped into does not.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/ink" android:state_focused="true" />
+    <item android:color="@color/field_outline" />
+</selector>

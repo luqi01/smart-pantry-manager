@@ -133,7 +133,9 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
                 adapter.replaceAll(items);
                 boolean empty = items == null || items.isEmpty();
                 emptyState.setVisibility(empty ? View.VISIBLE : View.GONE);
-                recycler.setVisibility(empty ? View.GONE : View.VISIBLE);
+                // The list stays on screen when it is empty. It draws the
+                // ruling, and hiding it left the user looking at blank paper
+                // instead of an empty page waiting to be written on.
                 summarise(items);
             }
 

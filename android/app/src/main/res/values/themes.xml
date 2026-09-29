@@ -17,6 +17,10 @@
              same paper rather than a band above it. -->
         <item name="android:statusBarColor" tools:targetApi="21">@color/paper</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <!-- and the same at the foot, so the page is not sitting in a black
+             tray on gesture-navigation devices. -->
+        <item name="android:navigationBarColor" tools:targetApi="21">@color/paper</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
         <item name="android:textViewStyle">@style/AppTextView</item>
     </style>
 

@@ -14,13 +14,13 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/space_2xl">
+            android:orientation="vertical">
 
             <ProgressBar
                 android:id="@+id/progress"
@@ -85,6 +85,14 @@
                 android:text="@string/empty_almost"
                 android:visibility="gone"
                 style="@style/Text.Note.Quiet" />
+
+            <!-- Takes whatever is left of the viewport and rules it, so the
+                 page is ruled to the foot as the pantry's is. -->
+            <za.ac.richfield.smartpantry.ui.RuledFillView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:minHeight="@dimen/space_2xl" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

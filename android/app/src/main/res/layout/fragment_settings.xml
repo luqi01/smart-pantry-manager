@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
+  No background of its own: the paper, and the red margin rule printed on it,
+  belong to the activity underneath. Painting this screen paper covered the rule
+  from the heading down.
+
   The form scrolls; Save does not. It sits on the bottom edge in the same place
   as Add on the pantry screen, so the action is where it is on every other
   screen instead of below the fold on a long form.
@@ -8,8 +12,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/paper">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="0dp"
@@ -55,7 +58,7 @@
             app:boxCornerRadiusBottomStart="@dimen/radius_sm"
             app:boxCornerRadiusTopEnd="@dimen/radius_sm"
             app:boxCornerRadiusTopStart="@dimen/radius_sm"
-            app:boxStrokeColor="@color/pen"
+            app:boxStrokeColor="@color/field_stroke"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -109,7 +112,10 @@
             android:minHeight="@dimen/touch_min"
             android:text="@string/settings_alerts_title"
             android:textColor="@color/ink"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:thumbTint="@color/switch_thumb"
+            app:trackTint="@color/switch_track"
+            app:trackDecorationTint="@android:color/transparent" />
 
         <TextView
             android:layout_width="match_parent"
@@ -126,7 +132,10 @@
             android:minHeight="@dimen/touch_min"
             android:text="@string/settings_almost_title"
             android:textColor="@color/ink"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:thumbTint="@color/switch_thumb"
+            app:trackTint="@color/switch_track"
+            app:trackDecorationTint="@android:color/transparent" />
 
         <TextView
             android:layout_width="match_parent"
@@ -159,9 +168,9 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="@dimen/space_xs"
-            android:background="@drawable/bg_amount"
+            android:background="@drawable/bg_field"
             android:paddingStart="@dimen/space_sm"
-            android:paddingEnd="@dimen/space_xs" />
+            android:paddingEnd="@dimen/space_xl" />
 
     </LinearLayout>
     </ScrollView>

@@ -95,21 +95,37 @@
     </style>
 
     <!--
-      The tabs are the divider tabs of a book. No filled shape behind the
-      selected one - Material's pill is the most recognisable stock component
-      on the screen, and a page does not have one.
+      The tabs are the divider tabs of a book, and the selected one is inked
+      in: a solid black block with the icon reversed out of it, and the name
+      printed underneath on the paper.
+
+      Material's stock pill is the most recognisable component on the screen and
+      a page does not have one. It also signalled the selected tab by colour
+      alone, which is invisible to anyone who cannot separate the red from the
+      grey; a filled block is a second, non-colour signal.
     -->
+    <style name="ShapeAppearance.Nav.Tab" parent="">
+        <item name="cornerSize">0dp</item>
+    </style>
+
     <style name="NavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@android:color/transparent</item>
-        <item name="android:width">0dp</item>
-        <item name="android:height">0dp</item>
+        <item name="android:color">@color/ink</item>
+        <item name="android:width">44dp</item>
+        <item name="android:height">34dp</item>
+        <item name="marginHorizontal">0dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Nav.Tab</item>
     </style>
 
     <style name="NavLabel" parent="TextAppearance.Material3.LabelMedium">
         <item name="android:fontFamily">@font/body</item>
         <item name="android:textSize">10sp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">0.12</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- The selected name is set heavier as well as darker, so the tab is
+         marked twice over. -->
+    <style name="NavLabel.Active">
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

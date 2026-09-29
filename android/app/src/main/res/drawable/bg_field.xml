@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The unit picker, drawn to match the outlined text fields beside it.
+
+  It used to be a filled box while its neighbours were outlined, so the one
+  control on the form that opens a list was also the one that looked least like
+  the others. It now shares their fill, their stroke and their corner, and
+  carries a chevron, because nothing else on the form said it could be opened.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/radius_sm" />
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="1dp" android:color="@color/field_outline" />
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/ic_chevron_down"
+        android:gravity="end|center_vertical"
+        android:end="@dimen/space_sm" />
+</layer-list>
