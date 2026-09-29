@@ -74,6 +74,85 @@ public final class RecipeMatcher {
     }
 
     /**
+     * The two sides of one ingredient check, reduced to a single common unit.
+     *
+     * <p>Which unit that is does not matter to the caller and is deliberately
+     * not exposed. What matters is that both numbers are in the same one, so
+     * they can be compared and subtracted.
+     */
+    public static final class Comparison {
+
+        private final double have;
+        private final double need;
+
+        Comparison(double have, double need) {
+            this.have = have;
+            this.need = need;
+        }
+
+        /** How much the pantry holds, in the common unit. */
+        public double getHave() {
+            return have;
+        }
+
+        /** How much the recipe calls for, in the common unit. */
+        public double getNeed() {
+            return need;
+        }
+
+        /** Whether the pantry covers the recipe, within floating-point slack. */
+        public boolean isSatisfied() {
+            return have + EPSILON >= need;
+        }
+    }
+
+    /**
+     * Puts a held amount and a required amount into one unit.
+     *
+     * <p>Extracted from {@link #match} so that
+     * {@link PantryDeduction} can subtract using exactly the arithmetic the rule
+     * used to decide the recipe was cookable. Two copies of this would
+     * eventually disagree, and the app would either suggest a recipe it then
+     * could not deduct or take away more than the user had.
+     *
+     * @param key      the normalised ingredient name, used to look up an average
+     *                 item weight when a count meets a mass
+     * @return {@code null} when no honest comparison is possible - an unknown
+     *         unit, or a mass against a volume with no density to bridge them.
+     *         Refusing is the safer failure: it keeps a recipe out of the
+     *         suggestions, which is what "strictly" is supposed to mean.
+     */
+    public static Comparison compare(String key, PantryItem held, RecipeIngredient required) {
+        UnitConverter.Quantity have = UnitConverter.toBase(held.getQuantity(), held.getUnit());
+        UnitConverter.Quantity need = UnitConverter.toBase(required.getQuantity(), required.getUnit());
+
+        if (have == null || need == null) {
+            return null;
+        }
+
+        double haveAmount = have.amount;
+        double needAmount = need.amount;
+
+        if (have.dimension != need.dimension) {
+            double gramsEach = UnitConverter.pieceWeightGrams(key);
+            if (gramsEach <= 0) {
+                return null;
+            }
+            if (have.dimension == UnitConverter.Dimension.COUNT
+                    && need.dimension == UnitConverter.Dimension.MASS) {
+                haveAmount = have.amount * gramsEach;
+            } else if (have.dimension == UnitConverter.Dimension.MASS
+                    && need.dimension == UnitConverter.Dimension.COUNT) {
+                needAmount = need.amount * gramsEach;
+            } else {
+                // Mass against volume, with no density to convert through.
+                return null;
+            }
+        }
+        return new Comparison(haveAmount, needAmount);
+    }
+
+    /**
      * Applies the strict rule to one recipe.
      *
      * @param recipe the recipe under test
@@ -93,39 +172,15 @@ public final class RecipeMatcher {
                 continue;
             }
 
-            UnitConverter.Quantity have = UnitConverter.toBase(held.getQuantity(), held.getUnit());
-            UnitConverter.Quantity need = UnitConverter.toBase(required.getQuantity(), required.getUnit());
-
-            if (have == null || need == null) {
-                // An unrecognised unit means the comparison cannot be trusted, so
-                // the ingredient counts as not satisfied.
+            Comparison comparison = compare(key, held, required);
+            if (comparison == null) {
+                // The two amounts cannot honestly be compared, so the
+                // ingredient counts as not satisfied.
                 missing.add(required.getName());
                 continue;
             }
 
-            double haveAmount = have.amount;
-            double needAmount = need.amount;
-
-            if (have.dimension != need.dimension) {
-                double gramsEach = UnitConverter.pieceWeightGrams(key);
-                if (gramsEach <= 0) {
-                    missing.add(required.getName());
-                    continue;
-                }
-                if (have.dimension == UnitConverter.Dimension.COUNT
-                        && need.dimension == UnitConverter.Dimension.MASS) {
-                    haveAmount = have.amount * gramsEach;
-                } else if (have.dimension == UnitConverter.Dimension.MASS
-                        && need.dimension == UnitConverter.Dimension.COUNT) {
-                    needAmount = need.amount * gramsEach;
-                } else {
-                    // Mass against volume, with no density to convert through.
-                    missing.add(required.getName());
-                    continue;
-                }
-            }
-
-            if (haveAmount + EPSILON < needAmount) {
+            if (!comparison.isSatisfied()) {
                 missing.add(String.format(Locale.UK, "%s (need %s %s, you have %s %s)",
                         required.getName(),
                         required.getDisplayQuantity(), required.getUnit(),
