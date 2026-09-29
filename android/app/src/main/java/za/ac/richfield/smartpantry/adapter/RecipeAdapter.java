@@ -1,5 +1,6 @@
 package za.ac.richfield.smartpantry.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public interface OnRecipeClick {
         void onRecipeSelected(Recipe recipe);
     }
+
+    private static final String SEPARATOR = "  ·  ";
 
     private final List<MatchResult> results = new ArrayList<>();
     private final OnRecipeClick listener;
@@ -95,12 +98,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 noteView.setText(itemView.getContext()
                         .getString(R.string.label_missing, result.getMissingSummary()));
             } else {
-                String serves = itemView.getContext()
-                        .getString(R.string.label_serves, recipe.getServes());
-                String minutes = itemView.getContext()
-                        .getString(R.string.label_minutes, recipe.getPrepMinutes());
-                noteView.setText(serves + "  ·  " + minutes + "  ·  "
-                        + recipe.getIngredients().size() + " ingredients");
+                Context context = itemView.getContext();
+                int count = recipe.getIngredients().size();
+                // Every user-facing word comes from a resource, and a count
+                // that can be one needs a plural rather than a bare "s".
+                noteView.setText(context.getString(R.string.label_serves, recipe.getServes())
+                        + SEPARATOR
+                        + context.getString(R.string.label_minutes, recipe.getPrepMinutes())
+                        + SEPARATOR
+                        + context.getResources().getQuantityString(
+                                R.plurals.recipe_ingredient_count, count, count));
             }
             noteView.setTextColor(ContextCompat.getColor(itemView.getContext(),
                     almost ? R.color.pen : R.color.ink_muted));

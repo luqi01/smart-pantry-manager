@@ -3,6 +3,10 @@ package za.ac.richfield.smartpantry.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * One ingredient the user currently has at home.
@@ -85,8 +89,18 @@ public class PantryItem implements Serializable {
     }
 
     /**
-     * Quantity without a trailing ".0" on whole numbers, because "3 piece" reads
-     * better in a list than "3.0 piece".
+     * Units that count things rather than measure them, and so take a plural.
+     *
+     * <p>Grams and millilitres do not: "250 gs" is not English. Splitting the
+     * two is the only way to get both "12 eggs" and "250 g" out of one line of
+     * formatting, and the list read "12 piece" until it was.
+     */
+    private static final Set<String> COUNTING_UNITS = new HashSet<>(Arrays.asList(
+            "piece", "slice", "clove", "can", "packet", "cup"));
+
+    /**
+     * Quantity without a trailing ".0" on whole numbers, because "3 pieces"
+     * reads better in a list than "3.0 pieces".
      */
     public String getDisplayQuantity() {
         if (quantity == Math.floor(quantity) && !Double.isInfinite(quantity)) {
@@ -96,6 +110,13 @@ public class PantryItem implements Serializable {
     }
 
     public String getDisplayAmount() {
-        return getDisplayQuantity() + " " + (unit == null ? "" : unit);
+        if (unit == null || unit.isEmpty()) {
+            return getDisplayQuantity();
+        }
+        String shown = unit;
+        if (COUNTING_UNITS.contains(unit.toLowerCase(Locale.UK)) && quantity != 1.0) {
+            shown = unit + "s";
+        }
+        return getDisplayQuantity() + " " + shown;
     }
 }

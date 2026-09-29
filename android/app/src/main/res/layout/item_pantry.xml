@@ -11,6 +11,14 @@
   The quantity is set at the same size as the name rather than blown up as a
   figure, and dot leaders carry the eye across to it. It is a list, not a
   dashboard.
+
+  The name and the leaders share a weighted container rather than sitting
+  directly in the row. That is not decoration - it is what makes a long name
+  ellipsize. A wrap_content child of a LinearLayout that has any weighted
+  sibling is measured against the whole row rather than against what is left of
+  it, so "Extra Mature Cheddar Cheese" measured out to the full width and shoved
+  the quantity and the bin off the right-hand edge. Inside a container that is
+  itself weighted, the name is measured against that container, and ellipsizes.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,13 +30,15 @@
     android:focusable="true"
     android:orientation="vertical">
 
+    <!-- Baseline aligned, so the index out in the margin and the quantity at
+         the end sit on the same written line as the name rather than merely
+         having the same bottom edge. They are different sizes, so a shared
+         bottom edge left the smaller ones sitting low. -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_pitch"
-        android:baselineAligned="false"
         android:gravity="bottom"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/sit_on_rule">
+        android:orientation="horizontal">
 
         <!-- Marginalia: the index is written outside the margin rule, where a
              page number or a tick would go. -->
@@ -38,44 +48,61 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:paddingEnd="@dimen/space_lg"
+            android:paddingBottom="@dimen/sit_on_rule"
             tools:text="02"
             style="@style/Text.Index" />
 
-        <TextView
-            android:id="@+id/text_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            tools:text="Cheddar Cheese"
-            style="@style/Text.Item" />
-
-        <View
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="@dimen/space_xs"
-            android:layout_marginEnd="@dimen/space_xs"
-            android:layout_marginBottom="4dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/leader_dots"
-            android:layerType="software" />
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/sit_on_rule"
+            android:paddingEnd="@dimen/space_sm">
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Cheddar Cheese"
+                style="@style/Text.Item" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="@dimen/space_xs"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/leader_dots"
+                android:layerType="software" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/text_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingBottom="@dimen/sit_on_rule"
             tools:text="200 g"
             style="@style/Text.Amount" />
 
+        <!-- Full row height and a full 48dp across. It was 40dp wide and, once
+             the row's bottom padding was taken off it, 39dp tall - under the
+             smallest target a thumb can be expected to hit. The 8dp margin puts
+             the glyph's right edge in line with the recipe list's stamps. -->
         <ImageButton
             android:id="@+id/button_delete"
-            android:layout_width="40dp"
+            android:layout_width="@dimen/touch_min"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/space_2xs"
+            android:layout_marginEnd="@dimen/space_xs"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_delete"
-            android:padding="@dimen/space_sm"
+            android:padding="14dp"
             android:src="@drawable/ic_delete"
             app:tint="@color/ink_faint" />
     </LinearLayout>

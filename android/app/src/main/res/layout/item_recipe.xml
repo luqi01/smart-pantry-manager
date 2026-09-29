@@ -20,7 +20,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_pitch"
-        android:baselineAligned="false"
         android:gravity="bottom"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/sit_on_rule">
@@ -32,25 +31,36 @@
             android:layout_width="@dimen/page_gutter"
             android:layout_height="1dp" />
 
-        <TextView
-            android:id="@+id/text_recipe_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            tools:text="Cheese Omelette"
-            style="@style/Text.Item" />
-
-        <View
+        <!-- Name and leaders share one weighted container so that a long
+             recipe name ellipsizes instead of pushing the verdict off the
+             right-hand edge. See item_pantry.xml for why. -->
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="@dimen/space_xs"
-            android:layout_marginEnd="@dimen/space_xs"
-            android:layout_marginBottom="4dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/leader_dots"
-            android:layerType="software" />
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/space_sm">
+
+            <TextView
+                android:id="@+id/text_recipe_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Cheese Omelette"
+                style="@style/Text.Item" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="@dimen/space_xs"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/leader_dots"
+                android:layerType="software" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/stamp_status"
