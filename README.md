@@ -201,17 +201,19 @@ looking for problems elsewhere.
 
 ## Running the tests
 
-The strict-matching rule is covered by JUnit tests that run on the JVM, with no
-emulator and no database:
+Twenty-two JUnit tests run on the JVM, with no emulator and no database:
 
 ```bash
 cd android
 ./gradlew test
 ```
 
-They cover the brief's own example (four ingredients out of five must not be
-suggested), exact-quantity boundaries, plural and synonym handling, unit
-conversion across dimensions, and the refusal to compare incomparable units.
+Fifteen cover the strict-matching rule: the brief's own example (four
+ingredients out of five must not be suggested), exact-quantity boundaries,
+plural and synonym handling, unit conversion across dimensions, and the refusal
+to compare incomparable units. The remaining seven cover how a quantity is
+written on a line, where counting units take a plural and measuring units do
+not.
 
 ## Project layout
 
@@ -230,7 +232,7 @@ SmartPantryManager/
 │       │   ├── model/                         data classes
 │       │   └── util/Prefs.java                SharedPreferences
 │       ├── main/res/                          layouts, strings, icons
-│       └── test/java/                         JUnit tests for the rule
+│       └── test/java/                         JUnit tests
 ├── server/
 │   ├── app.py                   Flask REST API
 │   ├── requirements.txt
