@@ -44,6 +44,9 @@ public class AddEditIngredientActivity extends AppCompatActivity {
     /** Confirmation sentence handed back to the pantry list. */
     public static final String EXTRA_MESSAGE = "za.ac.richfield.smartpantry.MESSAGE";
 
+    /** The item a deletion removed, so the pantry can offer it back. */
+    public static final String EXTRA_UNDO_ITEM = "za.ac.richfield.smartpantry.UNDO_ITEM";
+
     private static final String[] UNITS = {
             "piece", "slice", "clove", "can", "packet", "g", "kg", "ml", "l", "tsp", "tbsp", "cup"
     };
@@ -257,29 +260,39 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Deletes without asking, and hands the item back so the pantry can offer
+     * it again.
+     *
+     * <p>This screen used to confirm while the list did not, which meant the
+     * same action behaved differently depending on where it was reached from.
+     * Both are undoable now, and the undo lives on the pantry screen because
+     * that is where the user ends up.
+     */
     private void confirmDelete() {
-        new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle(getString(R.string.confirm_delete_title, editing.getName()))
-                .setMessage(R.string.confirm_delete_message)
-                .setNegativeButton(R.string.action_cancel, null)
-                .setPositiveButton(R.string.action_delete, (dialog, which) ->
-                        repository.delete(editing.getId(), new ApiClient.Callback<Object>() {
-                            @Override
-                            public void onSuccess(Object ignored) {
-                                finishWith(getString(R.string.toast_deleted, editing.getName()));
-                            }
+        repository.delete(editing.getId(), new ApiClient.Callback<Object>() {
+            @Override
+            public void onSuccess(Object ignored) {
+                finishWith(getString(R.string.toast_deleted, editing.getName()), editing);
+            }
 
-                            @Override
-                            public void onFailure(String message) {
-                                Snackbar.make(saveButton, message, Snackbar.LENGTH_LONG).show();
-                            }
-                        }))
-                .show();
+            @Override
+            public void onFailure(String message) {
+                Snackbar.make(saveButton, message, Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void finishWith(String message) {
+        finishWith(message, null);
+    }
+
+    private void finishWith(String message, PantryItem undoable) {
         Intent result = new Intent();
         result.putExtra(EXTRA_MESSAGE, message);
+        if (undoable != null) {
+            result.putExtra(EXTRA_UNDO_ITEM, undoable);
+        }
         setResult(RESULT_OK, result);
         finish();
     }

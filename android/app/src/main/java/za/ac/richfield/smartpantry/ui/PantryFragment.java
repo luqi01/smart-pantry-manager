@@ -7,13 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -73,14 +71,34 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == android.app.Activity.RESULT_OK) {
-                        String message = result.getData() == null ? null
-                                : result.getData().getStringExtra(AddEditIngredientActivity.EXTRA_MESSAGE);
-                        if (message != null && getView() != null) {
-                            Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-                        }
                         load();
+                        announce(result.getData());
                     }
                 });
+    }
+
+    /**
+     * Reports what the editor did, and offers a deletion back.
+     *
+     * <p>The editor finishes as soon as it has deleted, so there is nowhere on
+     * that screen to put an undo. It hands the item back instead and the offer
+     * is made here, which is also where the user is looking.
+     */
+    private void announce(@Nullable Intent data) {
+        if (data == null || getView() == null) {
+            return;
+        }
+        String message = data.getStringExtra(AddEditIngredientActivity.EXTRA_MESSAGE);
+        if (message == null) {
+            return;
+        }
+        Snackbar bar = note(message, Snackbar.LENGTH_LONG);
+        PantryItem undoable = (PantryItem)
+                data.getSerializableExtra(AddEditIngredientActivity.EXTRA_UNDO_ITEM);
+        if (undoable != null) {
+            bar.setAction(R.string.action_undo, v -> restore(undoable));
+        }
+        bar.show();
     }
 
     @Nullable
@@ -188,9 +206,26 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
         if (getView() == null) {
             return;
         }
-        Snackbar.make(getView(), message, Snackbar.LENGTH_INDEFINITE)
+        note(message, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action_retry, v -> load())
                 .show();
+    }
+
+    /**
+     * A note anchored above the Add ingredient bar rather than laid over it.
+     *
+     * <p>A snackbar covers the foot of the screen, which is where this screen
+     * keeps its one button. A tap meant for Undo that arrived just after the
+     * note had gone would open the add form instead. Anchoring keeps the two
+     * apart.
+     */
+    private Snackbar note(String message, int duration) {
+        Snackbar bar = Snackbar.make(requireView(), message, duration);
+        View anchor = requireView().findViewById(R.id.fab_add);
+        if (anchor != null && anchor.getVisibility() == View.VISIBLE) {
+            bar.setAnchorView(anchor);
+        }
+        return bar;
     }
 
     private void openEditor(@Nullable PantryItem item) {
@@ -208,18 +243,19 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
         openEditor(item);
     }
 
+    /**
+     * Deletes straight away and offers the deletion back.
+     *
+     * <p>This used to open a confirmation dialog, on the reasoning that
+     * deletion could not be undone. Now that it can, the dialog was asking the
+     * user to stop and think about something recoverable - which costs a tap on
+     * every intentional deletion to protect against the rare accidental one.
+     * An undo costs nothing unless it is needed, and it is the better answer to
+     * the same problem: the user finds out what happened and can reverse it,
+     * rather than being asked to predict it.
+     */
     @Override
     public void onDelete(final PantryItem item) {
-        // Deletion cannot be undone, so it is worth one tap to confirm.
-        new AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.confirm_delete_title, item.getName()))
-                .setMessage(R.string.confirm_delete_message)
-                .setNegativeButton(R.string.action_cancel, null)
-                .setPositiveButton(R.string.action_delete, (dialog, which) -> performDelete(item))
-                .show();
-    }
-
-    private void performDelete(final PantryItem item) {
         progress.setVisibility(View.VISIBLE);
         repository.delete(item.getId(), new ApiClient.Callback<Object>() {
             @Override
@@ -227,10 +263,13 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
                 if (!isAdded()) {
                     return;
                 }
-                Toast.makeText(requireContext(),
-                        getString(R.string.toast_deleted, item.getName()),
-                        Toast.LENGTH_SHORT).show();
                 load();
+                if (getView() != null) {
+                    note(getString(R.string.toast_deleted, item.getName()),
+                            Snackbar.LENGTH_LONG)
+                            .setAction(R.string.action_undo, v -> restore(item))
+                            .show();
+                }
             }
 
             @Override
@@ -240,6 +279,35 @@ public class PantryFragment extends Fragment implements PantryAdapter.OnItemActi
                 }
                 progress.setVisibility(View.GONE);
                 showError(message);
+            }
+        });
+    }
+
+    /**
+     * Writes the item back exactly as it was.
+     *
+     * <p>It returns with a new id, because the row it had is gone. Nothing in
+     * the app holds an id across this, and letting the client choose the primary
+     * key would be a poor trade for making the number match.
+     */
+    private void restore(final PantryItem item) {
+        progress.setVisibility(View.VISIBLE);
+        repository.create(item, new ApiClient.Callback<PantryItem>() {
+            @Override
+            public void onSuccess(PantryItem restored) {
+                if (!isAdded()) {
+                    return;
+                }
+                load();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                if (!isAdded()) {
+                    return;
+                }
+                progress.setVisibility(View.GONE);
+                showError(getString(R.string.error_undo));
             }
         });
     }
