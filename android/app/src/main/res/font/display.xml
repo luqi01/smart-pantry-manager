@@ -12,20 +12,32 @@
   Vollkorn is German for wholemeal, which is a better reason to pick a font for
   a pantry than most. It has ink in it: sturdy, slightly rough, and its figures
   carry enough weight to head a column of quantities.
+
+  Cut one step heavier than it was: bold for the names, extrabold for the page
+  title, bold italic for the notes. At the old semibold the writing sat too
+  lightly against ruling this dark, and a list written in pen is heavier than
+  the lines it is written on. Going a further step to 800/900 was tried and
+  rejected: the names grew wide enough to leave the dot leaders with nothing
+  to run through.
+
+  The declared weights below are 600 and 700 because that is what Android
+  matches textStyle against, not a claim about how the faces are drawn. A plain
+  TextView asks for 400 and a bold one asks for 700, so the two entries have to
+  straddle those requests for both to be reachable at all.
 -->
 <font-family xmlns:android="http://schemas.android.com/apk/res/android">
     <font
-        android:font="@font/vollkorn_semibold"
+        android:font="@font/vollkorn_bold"
         android:fontStyle="normal"
         android:fontWeight="600" />
     <font
-        android:font="@font/vollkorn_bold"
+        android:font="@font/vollkorn_extrabold"
         android:fontStyle="normal"
         android:fontWeight="700" />
     <!-- The italic is for notes: the thing someone adds to a list afterwards,
          in the margin or under the line, rather than part of the list itself. -->
     <font
-        android:font="@font/vollkorn_semibold_italic"
+        android:font="@font/vollkorn_bold_italic"
         android:fontStyle="italic"
         android:fontWeight="600" />
 </font-family>
