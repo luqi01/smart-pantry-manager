@@ -53,7 +53,7 @@
     <string name="settings_api_summary">Where the pantry API is running. The emulator reaches your computer on 10.0.2.2.</string>
     <string name="settings_alerts_title">Warn about expiring ingredients</string>
     <string name="settings_alerts_summary">Highlight pantry items expiring within three days.</string>
-    <string name="settings_almost_title">Show the Almost There list</string>
+    <string name="settings_almost_title">Show the One short list</string>
     <string name="settings_almost_summary">Also list recipes you are exactly one ingredient short of.</string>
     <string name="settings_units_title">Default unit for new items</string>
     <string name="settings_test">Test connection</string>

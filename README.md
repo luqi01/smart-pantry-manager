@@ -35,12 +35,12 @@ Technology.
   highlighted.
 - **Suggested recipes.** Twenty seeded recipes are tested against your pantry.
   Only the ones you can make appear.
-- **Almost There.** A separate list, clearly divided from the suggestions, for
+- **One short.** A separate list, clearly divided from the suggestions, for
   recipes you are exactly one ingredient short of.
 - **Recipe detail.** The full ingredient list and method, with a tick against
   each ingredient you already hold.
-- **Settings.** The API address, expiry warnings, whether Almost There is shown,
-  and the default unit for new items.
+- **Settings.** The API address, expiry warnings, whether the One short list is
+  shown, and the default unit for new items.
 
 ## The strict-matching rule
 
@@ -64,7 +64,7 @@ bridges the two, so two whole onions satisfy a recipe wanting 150 g of onion.
 
 **The rule itself** (`logic/RecipeMatcher.java`) walks every ingredient and
 collects the ones that are missing or short. No misses means suggested, exactly
-one means Almost There, two or more means excluded.
+one puts it under One short, two or more keeps it out altogether.
 
 Where a comparison cannot be made honestly — an unknown unit, or a mass against a
 volume with no conversion — the ingredient counts as **not** satisfied. Guessing
@@ -263,7 +263,7 @@ the Supabase SQL editor first.
 `curl http://localhost:3000/api/health`, which reports the recipe count.
 
 **A recipe will not appear even though the ingredients look present** — open the
-recipe from Almost There; the unticked ingredient is the one falling short. The
+recipe from One short; the unticked ingredient is the one falling short. The
 usual cause is a unit that cannot be compared, such as salt held in grams against
 a recipe asking for a teaspoon.
 
