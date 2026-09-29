@@ -12,11 +12,12 @@ android/.gradle/
 android/build/
 android/app/build/
 android/local.properties
-android/.idea/
+.idea/
 android/captures/
 *.apk
 *.aab
 *.iml
+out/
 
 # OS
 Thumbs.db
