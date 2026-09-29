@@ -8,7 +8,10 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import za.ac.richfield.smartpantry.logic.PantryDeduction;
 import za.ac.richfield.smartpantry.model.PantryItem;
 
 /**
@@ -53,6 +56,110 @@ public class PantryRepository {
     /** DELETE - remove an ingredient entirely. */
     public void delete(long id, ApiClient.Callback<Object> callback) {
         api.delete(PATH + "/" + id, ANY_TYPE, callback);
+    }
+
+    /**
+     * Applies everything cooking a recipe takes out of the pantry.
+     *
+     * <p>Each change is a row to update or a row to remove, so this is several
+     * requests rather than one. The API has no endpoint that takes a batch, and
+     * adding one for a handful of writes would have meant a server change to
+     * save a fraction of a second.
+     *
+     * <p>The requests go out together rather than one after another, because
+     * chaining them would make the wait the sum of every round trip instead of
+     * the longest one.
+     */
+    public void applyDeductions(final List<PantryDeduction.Change> changes,
+                                final ApiClient.Callback<Object> callback) {
+        runBatch(changes, false, callback);
+    }
+
+    /**
+     * Puts back exactly what {@link #applyDeductions} took out.
+     *
+     * <p>Every change carries the item as it stood before, so undoing is a
+     * write of a known value rather than an attempt to add the recipe's amounts
+     * back on. That difference matters: adding back would compound any rounding
+     * and would be wrong entirely if the user had edited the item in between.
+     *
+     * <p>An item that cooking removed is created again, so it comes back with a
+     * new id. Nothing in the app holds onto an id across that boundary, and the
+     * alternative - letting the client choose the primary key - would be a
+     * worse trade for a cosmetic gain.
+     */
+    public void undoDeductions(final List<PantryDeduction.Change> changes,
+                               final ApiClient.Callback<Object> callback) {
+        runBatch(changes, true, callback);
+    }
+
+    /**
+     * Fires every write at once and reports back when the last one lands.
+     *
+     * <p>The counter is atomic because the responses arrive on whichever thread
+     * the client finishes them on, and two landing at the same moment could
+     * otherwise both read the same remaining count and neither could call back.
+     * The {@code failed} flag makes sure a batch reports at most one error even
+     * when several requests fail.
+     */
+    private void runBatch(final List<PantryDeduction.Change> changes, final boolean undo,
+                          final ApiClient.Callback<Object> callback) {
+        if (changes == null || changes.isEmpty()) {
+            callback.onSuccess(null);
+            return;
+        }
+
+        final AtomicInteger outstanding = new AtomicInteger(changes.size());
+        final AtomicBoolean failed = new AtomicBoolean(false);
+
+        ApiClient.Callback<Object> step = new ApiClient.Callback<Object>() {
+            @Override
+            public void onSuccess(Object ignored) {
+                if (outstanding.decrementAndGet() == 0 && !failed.get()) {
+                    callback.onSuccess(null);
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                if (failed.compareAndSet(false, true)) {
+                    callback.onFailure(message);
+                }
+                outstanding.decrementAndGet();
+            }
+        };
+
+        for (PantryDeduction.Change change : changes) {
+            PantryItem before = change.getBefore();
+            if (undo) {
+                if (change.isExhausted()) {
+                    create(before, asObjectCallback(step));
+                } else {
+                    update(before, asObjectCallback(step));
+                }
+            } else if (change.isExhausted()) {
+                delete(before.getId(), step);
+            } else {
+                PantryItem reduced = new PantryItem(before.getId(), before.getName(),
+                        change.getNewQuantity(), before.getUnit(), before.getExpiryDate());
+                update(reduced, asObjectCallback(step));
+            }
+        }
+    }
+
+    /** Adapts a typed item callback onto the untyped batch counter. */
+    private ApiClient.Callback<PantryItem> asObjectCallback(final ApiClient.Callback<Object> target) {
+        return new ApiClient.Callback<PantryItem>() {
+            @Override
+            public void onSuccess(PantryItem item) {
+                target.onSuccess(item);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                target.onFailure(message);
+            }
+        };
     }
 
     /**
